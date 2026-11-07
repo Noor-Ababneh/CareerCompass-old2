@@ -7,37 +7,37 @@
     <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-blue-800/10 blur-[100px] pointer-events-none z-0 animate-blob animation-delay-2000"></div>
     <div class="absolute top-[30%] left-[30%] w-[400px] h-[400px] rounded-full bg-purple-800/10 blur-[120px] pointer-events-none z-0 animate-blob animation-delay-4000"></div>
 
-    <nav class="relative z-50 max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b border-indigo-200/50 backdrop-blur-xl bg-white/60">
+    <nav class="relative z-50 max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center gap-2 border-b border-indigo-200/50 backdrop-blur-xl bg-white/60">
       
-      <div class="flex items-center gap-3.5 cursor-pointer group" @click="$router.push('/')">
+      <div class="flex items-center gap-2 md:gap-3.5 cursor-pointer group shrink-0" @click="$router.push('/')">
         
-        <div class="relative w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-800/20 group-hover:scale-105 transition-all duration-500 border border-white p-1">
+        <div class="relative w-11 h-11 md:w-14 md:h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-800/20 group-hover:scale-105 transition-all duration-500 border border-white p-1">
           <img src="@/assets/logo.png" alt="Career Compass Logo" class="w-full h-full object-contain group-hover:rotate-6 transition-transform duration-500" />
         </div>
         
         <div class="flex flex-col">
-          <span class="text-2xl font-black text-slate-800 tracking-tight leading-none">Career<span class="text-indigo-800">Compass</span></span>
-          <span class="text-[10px] font-bold text-indigo-600 tracking-wider mt-0.5 uppercase">The Future Starts Here</span>
+          <span class="text-lg md:text-2xl font-black text-slate-800 tracking-tight leading-none">Career<span class="text-indigo-800">Compass</span></span>
+          <span class="text-[8px] md:text-[10px] font-bold text-indigo-600 tracking-wider mt-0.5 uppercase">The Future Starts Here</span>
         </div>
       </div>
       
-      <div class="flex items-center gap-3 md:gap-5">
+      <div class="flex items-center gap-2 md:gap-5 shrink-0">
         <template v-if="authStore.isAuthenticated">
-          <button @click="$router.push('/dashboard')" class="relative overflow-hidden bg-indigo-800 text-white px-5 py-2 md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-indigo-800/30 hover:shadow-indigo-800/40 hover:-translate-y-0.5 group">
+          <button @click="$router.push('/dashboard')" class="relative overflow-hidden bg-indigo-800 text-white px-3 py-2 text-xs md:text-base md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-indigo-800/30 hover:shadow-indigo-800/40 hover:-translate-y-0.5 group whitespace-nowrap">
             <span class="relative z-10 flex items-center gap-2">
               <span>لوحة التحكم</span>
             </span>
           </button>
-          <button @click="openModal" class="hidden md:block relative overflow-hidden bg-white border border-indigo-200 text-indigo-800 px-5 py-2 md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-sm hover:shadow-indigo-800/10 hover:-translate-y-0.5 group">
+          <button @click="openModal" class="relative overflow-hidden bg-white border border-indigo-200 text-indigo-800 px-3 py-2 text-xs md:text-base md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-sm hover:shadow-indigo-800/10 hover:-translate-y-0.5 group whitespace-nowrap">
             <span class="relative z-10">تبديل المستخدم</span>
           </button>
         </template>
         
         <template v-else>
-          <button @click="$router.push('/login')" class="hidden md:block relative overflow-hidden bg-white border border-indigo-200 text-indigo-800 px-5 py-2 md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-sm hover:shadow-indigo-800/10 hover:-translate-y-0.5 group">
+          <button @click="$router.push('/login')" class="relative overflow-hidden bg-white border border-indigo-200 text-indigo-800 px-3 py-2 text-xs md:text-base md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-sm hover:shadow-indigo-800/10 hover:-translate-y-0.5 group whitespace-nowrap">
             <span class="relative z-10">تسجيل الدخول</span>
           </button>
-          <button @click="openModal" class="relative overflow-hidden bg-indigo-800 text-white px-5 py-2 md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-indigo-800/30 hover:shadow-indigo-800/40 hover:-translate-y-0.5 group">
+          <button @click="openModal" class="relative overflow-hidden bg-indigo-800 text-white px-3 py-2 text-xs md:text-base md:px-7 md:py-2.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-indigo-800/30 hover:shadow-indigo-800/40 hover:-translate-y-0.5 group whitespace-nowrap">
             <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
             <span class="relative z-10">ابدأ رحلتك مجاناً</span>
           </button>
