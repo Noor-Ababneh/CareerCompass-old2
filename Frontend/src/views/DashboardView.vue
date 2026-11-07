@@ -7,23 +7,23 @@
       <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#8B5CF6]/10 blur-[100px] animate-blob"></div>
     </div>
 
-    <nav class="relative z-50 max-w-7xl mx-auto px-6 py-5 flex justify-between items-center border-b border-indigo-100/50 backdrop-blur-xl bg-white/50">
+    <nav class="relative z-50 max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-5 flex justify-between items-center gap-2 border-b border-indigo-100/50 backdrop-blur-xl bg-white/50">
       
-      <div class="flex items-center gap-3.5 cursor-pointer group" @click="$router.push('/')">
-        <div class="relative w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md border border-indigo-50 p-1 group-hover:scale-105 transition-all">
+      <div class="flex items-center gap-2 md:gap-3.5 cursor-pointer group shrink-0" @click="$router.push('/')">
+        <div class="relative w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center shadow-md border border-indigo-50 p-1 group-hover:scale-105 transition-all">
             <img src="@/assets/logo.png" alt="Logo" class="w-full h-full object-contain" />
         </div>
         <div class="flex flex-col">
-          <span class="text-2xl font-black text-slate-800 tracking-tight leading-none">Career<span class="text-indigo-500">Compass</span></span>
-          <span class="text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-0.5">البوصلة الخاصة بك</span>
+          <span class="text-lg md:text-2xl font-black text-slate-800 tracking-tight leading-none">Career<span class="text-indigo-500">Compass</span></span>
+          <span class="text-[8px] md:text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-0.5">البوصلة الخاصة بك</span>
         </div>
       </div>
 
-      <div class="flex items-center gap-2 md:gap-4">
+      <div class="flex items-center gap-2 md:gap-4 shrink-0">
         
-        <button @click="$router.push('/')" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-600 hover:text-indigo-600 rounded-xl font-bold text-sm transition-all duration-300 shadow-sm group">
+        <button @click="$router.push('/')" class="flex items-center gap-2 px-2.5 py-2 md:px-4 md:py-2 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-600 hover:text-indigo-600 rounded-xl font-bold text-sm transition-all duration-300 shadow-sm group">
           <span class="text-lg group-hover:-translate-x-1 transition-transform">🏠</span>
-          <span>الرئيسية</span>
+          <span class="hidden sm:inline">الرئيسية</span>
         </button>
 
         <div class="hidden md:flex items-center gap-3 bg-white/80 border border-indigo-100 px-4 py-1.5 rounded-full shadow-sm">
@@ -36,8 +36,8 @@
           </div>
         </div>
         
-        <button @click="openModal" class="flex items-center gap-2 px-4 py-2 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-600 hover:text-indigo-600 rounded-xl font-bold text-sm transition-all duration-300 shadow-sm group">
-          <span class="hidden sm:inline">تبديل المستخدم</span>
+        <button @click="openModal" class="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 bg-white hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-600 hover:text-indigo-600 rounded-xl font-bold text-xs md:text-sm transition-all duration-300 shadow-sm group whitespace-nowrap">
+          <span>تبديل المستخدم</span>
         </button>
 
       </div>
