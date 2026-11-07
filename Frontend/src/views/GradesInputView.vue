@@ -117,10 +117,11 @@
                 
                 <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-200 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all w-full md:w-auto">
                   <div class="relative flex-1 md:w-32">
+                    <!-- التغيير هنا: من type="number" إلى type="text" -->
                     <input 
-                      type="number" 
-                      v-model.number="grades[key]" 
-                      min="0" max="100"
+                      type="text" 
+                      inputmode="numeric"
+                      v-model="grades[key]" 
                       class="w-full text-center bg-transparent border-none font-black text-2xl text-slate-800 focus:ring-0 p-0"
                       placeholder="0"
                       @blur="validateGrade(key)"
@@ -232,10 +233,31 @@ const gpaColorClass = computed(() => {
   return 'text-[#f43f5e]'
 })
 
+// دالة لتحويل الأرقام العربية والإنجليزية إلى أرقام قياسية
+function normalizeNumber(val) {
+  if (val === null || val === undefined) return '';
+  const str = String(val);
+  // تحويل الأرقام العربية (٠-٩) والفارسية (۰-۹) إلى إنجليزية (0-9)
+  return str.replace(/[٠-٩]/g, d => d.charCodeAt(0) - 0x0660)
+            .replace(/[۰-۹]/g, d => d.charCodeAt(0) - 0x06F0)
+            .replace(/[^0-9]/g, ''); // إزالة أي حرف آخر غير الأرقام
+}
+
 function validateGrade(key) {
-  let val = Number(grades.value[key]);
-  if(isNaN(val) || val < 0) grades.value[key] = 0;
-  if(val > 100) grades.value[key] = 100;
+  // تحويل القيمة الحالية إلى أرقام إنجليزية
+  let rawVal = normalizeNumber(grades.value[key]);
+  
+  if (rawVal === '') {
+    grades.value[key] = '';
+    return;
+  }
+
+  let val = Number(rawVal);
+  if (isNaN(val) || val < 0) val = 0;
+  if (val > 100) val = 100;
+  
+  // تخزين القيمة كرقم
+  grades.value[key] = val;
 }
 
 function getSubjectStatusLabel(s) {
@@ -267,6 +289,12 @@ async function submit() {
     errorMessage.value = 'الرجاء اختيار الحقل الأكاديمي للمتابعة.'; 
     return 
   }
+  
+  // تأكد من تحويل كل القيم قبل الإرسال
+  Object.keys(grades.value).forEach(k => {
+    grades.value[k] = Number(normalizeNumber(grades.value[k])) || 0;
+  });
+
   const missing = Object.keys(currentSubjects.value).filter(s => grades.value[s] === undefined || grades.value[s] === 0)
   if (missing.length) { 
     errorMessage.value = 'يرجى إدخال درجاتك في جميع المواد الأساسية لحساب المعدل.'; 
@@ -302,13 +330,11 @@ async function submit() {
 .font-sans { font-family: 'Tajawal', sans-serif; }
 .font-mono { font-family: 'IBM Plex Mono', monospace; }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+/* إخفاء أسهم الأرقام للحقول */
+input[type="text"]::-webkit-inner-spin-button,
+input[type="text"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-input[type="number"] {
-  -moz-appearance: textfield;
 }
 
 .animate-blob { animation: bfloat 15s infinite alternate ease-in-out; }
