@@ -23,14 +23,15 @@
       </div>
     </nav>
 
-    <div class="relative pt-8 pb-4 px-6 text-center mb-6 overflow-hidden">
+    <!-- 1. تم تقليل الـ padding-bottom والـ margin-bottom هنا -->
+    <div class="relative pt-8 pb-2 px-6 text-center mb-4 overflow-hidden">
       <div class="relative z-10">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-4 border bg-white border-indigo-100 text-indigo-600 shadow-sm">
           <span class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse"></span>
           الدليل الأكاديمي الشامل 2025/2026
         </div>
         <h1 class="text-3xl md:text-4xl font-black text-slate-800 mb-3 animate-fade-in-up leading-tight">
-          دليل الجامعات <span class="jordan-flag-text pb-1">الأردنية 🇯🇴</span>
+          دليل الجامعات <span class="jordan-flag-text pb-1">الأردنية</span>
         </h1>
         <p class="text-slate-500 text-sm md:text-base max-w-2xl mx-auto font-medium animate-fade-in-up delay-100 leading-relaxed bg-white/50 p-3 rounded-2xl border border-white">
           استكشف الجامعات الحكومية والخاصة في الأردن، وتعرف على التخصصات والكليات المتاحة لتختار وجهتك الأكاديمية بدقة.
@@ -40,7 +41,8 @@
 
     <div class="max-w-7xl mx-auto px-6 relative z-10">
 
-      <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6 bg-white/90 backdrop-blur-xl p-4 md:p-5 rounded-[2rem] shadow-xl shadow-indigo-500/5 border border-white">
+      <!-- 2. تم تقليل الـ margin-bottom هنا من mb-6 لـ mb-4 -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4 bg-white/90 backdrop-blur-xl p-4 md:p-5 rounded-[2rem] shadow-xl shadow-indigo-500/5 border border-white">
         <div class="w-full md:w-1/2 relative">
           <input 
             v-model="searchQuery" 
