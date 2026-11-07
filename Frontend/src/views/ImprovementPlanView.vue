@@ -1,176 +1,164 @@
 <template>
-<div class="min-h-screen font-sans bg-[#FDFCF9] selection:bg-amber-500 selection:text-white relative overflow-x-hidden" dir="rtl">
-  <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-    <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-amber-400/10 blur-[120px] animate-aura"></div>
-    <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-orange-500/10 blur-[100px] animate-aura" style="animation-delay: -4s;"></div>
-    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#d97706 1px, transparent 1px); background-size: 32px 32px;"></div>
-  </div>
-
-  <nav class="print:hidden relative z-50 max-w-6xl mx-auto px-6 py-4 flex justify-between items-center sticky top-0 bg-white/70 backdrop-blur-md border-b border-amber-200/30 shadow-sm rounded-b-2xl">
-    <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center text-white text-sm shadow-md">🧭</div>
-      <span class="font-black text-slate-700 tracking-tight">CareerCompass</span>
-      <span class="text-[10px] bg-amber-100 text-amber-700 border border-amber-200 px-2 py-0.5 rounded-full font-bold uppercase">Jordan 2025</span>
+  <div class="min-h-screen font-sans bg-[#F4F6FB] selection:bg-[#3B4A6B] selection:text-white relative overflow-x-hidden" dir="rtl">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[#3B4A6B]/10 blur-[120px] animate-aura"></div>
+      <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#5A4B8C]/10 blur-[100px] animate-aura" style="animation-delay: -4s;"></div>
+      <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#2E3A59 1px, transparent 1px); background-size: 32px 32px;"></div>
     </div>
-    <div class="flex gap-2">
-      <button @click="printReport" class="nav-btn flex items-center gap-1.5 hover:bg-amber-50 hover:text-amber-600">
-        حفظ التقرير <span>📄</span>
-      </button>
-      <button @click="$router.go(-1)" class="nav-btn-primary flex items-center gap-1.5">
-        تعديل العلامات
-      </button>
-    </div>
-  </nav>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-5 pb-28 pt-8 print:p-4 print:max-w-none">
-    <div v-if="source === 'grades'" class="space-y-10">
+    <nav class="print:hidden relative z-50 max-w-6xl mx-auto px-6 py-4 flex justify-between items-center sticky top-0 bg-white/70 backdrop-blur-md border-b border-[#3B4A6B]/15 shadow-sm rounded-b-2xl">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-gradient-to-br from-[#3B4A6B] to-[#5A4B8C] rounded-lg flex items-center justify-center text-white text-sm shadow-md">🧭</div>
+        <span class="font-black text-[#1E2A44] tracking-tight">CareerCompass</span>
+        <span class="text-[10px] bg-[#3B4A6B]/5 text-[#3B4A6B] border border-[#3B4A6B]/15 px-2 py-0.5 rounded-full font-bold uppercase">Jordan 2025</span>
+      </div>
+      <div class="flex gap-2">
+        <button @click="$router.push('/')" class="nav-btn flex items-center gap-1.5 hover:bg-[#3B4A6B]/5 hover:text-[#3B4A6B]">
+          الرئيسية <span class="text-base">🏠</span>
+        </button>
+        <button @click="printReport" class="nav-btn flex items-center gap-1.5 hover:bg-[#3B4A6B]/5 hover:text-[#3B4A6B]">
+          حفظ التقرير <span>📄</span>
+        </button>
+        <button @click="$router.go(-1)" class="nav-btn-primary flex items-center gap-1.5">
+          تعديل العلامات
+        </button>
+      </div>
+    </nav>
 
-      <!-- Hero Section -->
-      <section class="anim-fade text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-5 border bg-white border-amber-200 text-amber-700 shadow-sm">
-          <span>{{ stage === 'junior' ? 'مرحلة التأسيس (الصفوف 9-11)' : 'مرحلة التوجيهي' }}</span>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-black text-slate-800 mb-3 leading-tight">
-           تحليل وضعك الأكاديمي - <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-500">{{ getFieldName(field) }}</span>
-        </h1>
-        <p class="text-slate-500 max-w-xl mx-auto text-base leading-relaxed font-medium">
-          تقرير أكاديمي شامل يعتمد على معايير القبول الموحد الأردني - مصمم خصيصاً لوضعك
-        </p>
-      </section>
+    <div class="relative z-10 max-w-6xl mx-auto px-5 pb-28 pt-8 print:p-4 print:max-w-none">
+      <div v-if="source === 'grades'" class="space-y-10">
 
-      <!-- ============================================================ -->
-      <!-- FAILED SUBJECT CRITICAL BANNER - يظهر فقط عند وجود رسوب -->
-      <!-- ============================================================ -->
-      <section v-if="hasFailedSubject" class="anim-fade">
-        <div class="relative overflow-hidden rounded-[2rem] border-2 border-rose-300 bg-gradient-to-br from-rose-50 via-red-50 to-rose-100 shadow-xl shadow-rose-500/15 p-8 md:p-10">
-          <!-- Decorative pulse ring -->
-          <div class="absolute top-6 right-6 w-14 h-14 rounded-full bg-rose-200/60 animate-ping pointer-events-none"></div>
-          <div class="absolute top-6 right-6 w-14 h-14 rounded-full bg-rose-300/80 flex items-center justify-center text-2xl z-10">🚫</div>
+        <section class="anim-fade text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-5 border bg-white border-[#3B4A6B]/20 text-[#3B4A6B] shadow-sm">
+            <span>{{ stage === 'junior' ? 'مرحلة التأسيس (الصفوف 9-11)' : 'مرحلة التوجيهي' }}</span>
+          </div>
+          <h1 class="text-4xl md:text-5xl font-black text-[#1E2A44] mb-3 leading-tight">
+             تحليل وضعك الأكاديمي - <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#3B4A6B] to-[#5A4B8C]">{{ getFieldName(field) }}</span>
+          </h1>
+          <p class="text-[#4A5568] max-w-xl mx-auto text-base leading-relaxed font-medium">
+            تقرير أكاديمي شامل يعتمد على معايير القبول الموحد الأردني - مصمم خصيصاً لوضعك
+          </p>
+        </section>
 
-          <div class="pr-20">
-            <h2 class="text-2xl md:text-3xl font-black text-rose-800 mb-3 leading-tight">
-              يوجد مادة راسبة — القبول الجامعي موقوف حالياً
-            </h2>
-            <p class="text-rose-700 font-bold text-base leading-relaxed mb-6">
-              الرسوب في أي مادة أساسية يمنع القبول الجامعي بصورة كاملة في الجامعات الأردنية
-              الحكومية والخاصة على حدٍّ سواء، بغض النظر عن المعدل العام أو باقي العلامات.
-              معالجة المواد الراسبة هي أولوية قصوى قبل أي تفكير في التخصصات أو المعدلات.
-            </p>
+        <!-- بانر تحذيري يظهر فقط عند وجود مادة راسبة، لأنه يوقف القبول الجامعي كلياً -->
+        <section v-if="hasFailedSubject" class="anim-fade">
+          <div class="relative overflow-hidden rounded-[2rem] border-2 border-rose-300 bg-gradient-to-br from-rose-50 via-red-50 to-rose-100 shadow-xl shadow-rose-500/15 p-8 md:p-10">
+            <div class="absolute top-6 right-6 w-14 h-14 rounded-full bg-rose-200/60 animate-ping pointer-events-none"></div>
+            <div class="absolute top-6 right-6 w-14 h-14 rounded-full bg-rose-300/80 flex items-center justify-center text-2xl z-10">🚫</div>
 
-            <!-- Failed subjects list -->
-            <div class="flex flex-wrap gap-3 mb-6">
-              <div v-for="subj in failedSubjectsList" :key="subj.key"
-                class="flex items-center gap-2 bg-white border-2 border-rose-200 rounded-2xl px-4 py-2.5 shadow-sm">
-                <span class="text-xl">{{ subj.icon }}</span>
-                <div>
-                  <div class="text-sm font-black text-rose-700">{{ subj.name }}</div>
-                  <div class="text-xs font-bold text-rose-400 font-mono">{{ subj.score }}% — الحد الأدنى للنجاح: 50%</div>
+            <div class="pr-20">
+              <h2 class="text-2xl md:text-3xl font-black text-rose-800 mb-3 leading-tight">
+                يوجد مادة راسبة — القبول الجامعي موقوف حالياً
+              </h2>
+              <p class="text-rose-700 font-bold text-base leading-relaxed mb-6">
+                الرسوب في أي مادة أساسية يمنع القبول الجامعي بصورة كاملة في الجامعات الأردنية
+                الحكومية والخاصة على حدٍّ سواء، بغض النظر عن المعدل العام أو باقي العلامات.
+                معالجة المواد الراسبة هي أولوية قصوى قبل أي تفكير في التخصصات أو المعدلات.
+              </p>
+
+              <div class="flex flex-wrap gap-3 mb-6">
+                <div v-for="subj in failedSubjectsList" :key="subj.key"
+                  class="flex items-center gap-2 bg-white border-2 border-rose-200 rounded-2xl px-4 py-2.5 shadow-sm">
+                  <span class="text-xl">{{ subj.icon }}</span>
+                  <div>
+                    <div class="text-sm font-black text-rose-700">{{ subj.name }}</div>
+                    <div class="text-xs font-bold text-rose-400">{{ subj.score }}% — الحد الأدنى للنجاح: 50%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-3 gap-4">
+                <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-2">📌</div>
+                  <div class="text-sm font-black text-rose-700 mb-1">الخطوة الأولى</div>
+                  <div class="text-xs text-rose-600 font-bold leading-relaxed">راجع كل مادة راسبة فردياً واستعن بمعلم خصوصي فوراً</div>
+                </div>
+                <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-2">📅</div>
+                  <div class="text-sm font-black text-rose-700 mb-1">الجدول الزمني</div>
+                  <div class="text-xs text-rose-600 font-bold leading-relaxed">خصص 70% من وقت دراستك للمواد الراسبة حتى الامتحان</div>
+                </div>
+                <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
+                  <div class="text-2xl mb-2">🎯</div>
+                  <div class="text-sm font-black text-rose-700 mb-1">الهدف الآني</div>
+                  <div class="text-xs text-rose-600 font-bold leading-relaxed">النجاح في المواد الراسبة أولاً — كل هدف آخر يأتي بعده</div>
                 </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <!-- Action steps -->
-            <div class="grid sm:grid-cols-3 gap-4">
-              <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
-                <div class="text-2xl mb-2">📌</div>
-                <div class="text-sm font-black text-rose-700 mb-1">الخطوة الأولى</div>
-                <div class="text-xs text-rose-600 font-bold leading-relaxed">راجع كل مادة راسبة فردياً واستعن بمعلم خصوصي فوراً</div>
+        <section class="anim-fade-d1 bg-white/80 backdrop-blur-xl border border-white rounded-[2.5rem] overflow-hidden relative shadow-xl shadow-[#3B4A6B]/5">
+          <div class="h-1.5 w-full" :class="gpaAccentBar"></div>
+          <div class="p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+            <div class="relative shrink-0 transform hover:scale-105 transition-transform duration-500">
+              <svg class="w-40 h-40 -rotate-90" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="8"/>
+                <circle cx="60" cy="60" r="50" fill="none" :stroke="gpaCircleColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="314" :stroke-dashoffset="314 - (314 * gpa / 100)" style="transition: stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1)"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="text-4xl font-black text-[#1E2A44]">{{ gpa }}%</span>
+                <span class="text-[10px] font-black text-[#718096] mt-1 text-center leading-tight uppercase">المعدل<br>التقريبي</span>
               </div>
-              <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
-                <div class="text-2xl mb-2">📅</div>
-                <div class="text-sm font-black text-rose-700 mb-1">الجدول الزمني</div>
-                <div class="text-xs text-rose-600 font-bold leading-relaxed">خصص 70% من وقت دراستك للمواد الراسبة حتى الامتحان</div>
+            </div>
+            <div class="flex-1 text-center md:text-right">
+              <div class="flex flex-wrap items-center gap-3 mb-4 justify-center md:justify-start">
+                <h2 class="text-2xl font-black text-[#1E2A44]">الوضع الأكاديمي:</h2>
+                <span class="text-sm px-4 py-1.5 rounded-xl font-bold border-2" :class="gpaStatusBadge">{{ getGPAStatusText(gpa) }}</span>
               </div>
-              <div class="bg-white/70 border border-rose-200 rounded-2xl p-4 text-center">
-                <div class="text-2xl mb-2">🎯</div>
-                <div class="text-sm font-black text-rose-700 mb-1">الهدف الآني</div>
-                <div class="text-xs text-rose-600 font-bold leading-relaxed">النجاح في المواد الراسبة أولاً — كل هدف آخر يأتي بعده</div>
+              <p class="font-black text-xl text-[#2D3748] mb-3">{{ getGPASummaryTitle(gpa) }}</p>
+              <p class="text-[#4A5568] leading-relaxed border-r-4 border-[#3B4A6B]/30 pr-5 text-base font-medium">{{ getGPADetailedMessage(gpa, field) }}</p>
+
+              <div v-if="hasFailedSubject" class="mt-6 p-4 rounded-2xl bg-rose-50 border-2 border-rose-100 flex items-start gap-3">
+                <span class="text-2xl">⚠️</span>
+                <p class="text-sm text-rose-700 font-bold leading-relaxed text-right">
+                  يوجد مادة راسبة — جميع بيانات القبول أدناه مجمّدة. اعالج الرسوب أولاً.
+                </p>
               </div>
+
+              <!-- عتبات القبول: تُعرض فقط عند عدم وجود رسوب، لأن الرسوب يلغيها كلياً -->
+              <div v-if="!hasFailedSubject" class="mt-8 grid grid-cols-3 gap-4">
+                <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
+                  <div class="text-xl font-black" :class="gpa >= privateMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= privateMin ? '✓' : '✗' }}</div>
+                  <div class="text-[10px] text-[#4A5568] font-black mt-1">قبول خاص</div>
+                  <div class="text-[10px] text-[#718096] font-bold">{{ privateMin }}%+</div>
+                </div>
+                <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
+                  <div class="text-xl font-black" :class="gpa >= govMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= govMin ? '✓' : '✗' }}</div>
+                  <div class="text-[10px] text-[#4A5568] font-black mt-1">قبول حكومي</div>
+                  <div class="text-[10px] text-[#718096] font-bold">{{ govMin }}%+</div>
+                </div>
+                <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
+                  <div class="text-xl font-black" :class="gpa >= competitiveMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= competitiveMin ? '✓' : '✗' }}</div>
+                  <div class="text-[10px] text-[#4A5568] font-black mt-1">تخصصات منافسة</div>
+                  <div class="text-[10px] text-[#718096] font-bold">{{ competitiveMin }}%+</div>
+                </div>
+              </div>
+
+              <!-- بديل عند الرسوب: ثلاث بطاقات معطّلة تُوضّح أن عتبات القبول لا تنطبق -->
+              <div v-else class="mt-8 grid grid-cols-3 gap-4">
+                <div v-for="label in ['قبول خاص','قبول حكومي','تخصصات منافسة']" :key="label"
+                  class="bg-rose-50/60 border border-rose-100 p-3 rounded-2xl text-center shadow-sm opacity-60">
+                  <div class="text-xl font-black text-rose-300">—</div>
+                  <div class="text-[10px] text-rose-400 font-black mt-1">{{ label }}</div>
+                  <div class="text-[10px] text-rose-300 font-bold">موقوف</div>
+                </div>
+              </div>
+
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- GPA Overview Card -->
-      <section class="anim-fade-d1 bg-white/80 backdrop-blur-xl border border-white rounded-[2.5rem] overflow-hidden relative shadow-xl shadow-amber-500/5">
-        <div class="h-1.5 w-full" :class="gpaAccentBar"></div>
-        <div class="p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-          <div class="relative shrink-0 transform hover:scale-105 transition-transform duration-500">
-            <svg class="w-40 h-40 -rotate-90" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="8"/>
-              <circle cx="60" cy="60" r="50" fill="none" :stroke="gpaCircleColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="314" :stroke-dashoffset="314 - (314 * gpa / 100)" style="transition: stroke-dashoffset 1.8s cubic-bezier(.16,1,.3,1)"/>
-            </svg>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span class="text-4xl font-black text-slate-800">{{ gpa }}%</span>
-              <span class="text-[10px] font-black text-slate-400 mt-1 text-center leading-tight uppercase">المعدل<br>التقريبي</span>
+        <section v-if="stage === 'senior'" class="anim-fade-d2">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-12 h-12 rounded-2xl bg-[#3B4A6B]/10 text-[#3B4A6B] flex items-center justify-center text-xl shadow-sm border border-[#3B4A6B]/20">🎯</div>
+            <div>
+              <h3 class="text-2xl font-black text-[#1E2A44]">التخصصات المتاحة في حقلك</h3>
+              <p class="text-sm text-[#4A5568] font-medium">مرتبة حسب الحد الأدنى للقبول. يعتمد القبول الفعلي على التنافس</p>
             </div>
           </div>
-          <div class="flex-1 text-center md:text-right">
-            <div class="flex flex-wrap items-center gap-3 mb-4 justify-center md:justify-start">
-              <h2 class="text-2xl font-black text-slate-800">الوضع الأكاديمي:</h2>
-              <span class="text-sm px-4 py-1.5 rounded-xl font-bold border-2" :class="gpaStatusBadge">{{ getGPAStatusText(gpa) }}</span>
-            </div>
-            <p class="font-black text-xl text-slate-700 mb-3">{{ getGPASummaryTitle(gpa) }}</p>
-            <p class="text-slate-500 leading-relaxed border-r-4 border-amber-400/30 pr-5 text-base font-medium">{{ getGPADetailedMessage(gpa, field) }}</p>
-
-            <!-- Failed subject warning inside GPA card -->
-            <div v-if="hasFailedSubject" class="mt-6 p-4 rounded-2xl bg-rose-50 border-2 border-rose-100 flex items-start gap-3">
-              <span class="text-2xl">⚠️</span>
-              <p class="text-sm text-rose-700 font-bold leading-relaxed text-right">
-                يوجد مادة راسبة — جميع بيانات القبول أدناه مجمّدة. اعالج الرسوب أولاً.
-              </p>
-            </div>
-
-            <!-- ============================================================ -->
-            <!-- ADMISSION THRESHOLDS: مخفية عند الرسوب، ظاهرة عند عدمه -->
-            <!-- ============================================================ -->
-            <div v-if="!hasFailedSubject" class="mt-8 grid grid-cols-3 gap-4">
-              <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
-                <div class="text-xl font-black" :class="gpa >= privateMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= privateMin ? '✓' : '✗' }}</div>
-                <div class="text-[10px] text-slate-500 font-black mt-1">قبول خاص</div>
-                <div class="text-[10px] text-slate-400 font-bold">{{ privateMin }}%+</div>
-              </div>
-              <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
-                <div class="text-xl font-black" :class="gpa >= govMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= govMin ? '✓' : '✗' }}</div>
-                <div class="text-[10px] text-slate-500 font-black mt-1">قبول حكومي</div>
-                <div class="text-[10px] text-slate-400 font-bold">{{ govMin }}%+</div>
-              </div>
-              <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
-                <div class="text-xl font-black" :class="gpa >= competitiveMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= competitiveMin ? '✓' : '✗' }}</div>
-                <div class="text-[10px] text-slate-500 font-black mt-1">تخصصات منافسة</div>
-                <div class="text-[10px] text-slate-400 font-bold">{{ competitiveMin }}%+</div>
-              </div>
-            </div>
-
-            <!-- بديل عند الرسوب: بطاقات موقوفة -->
-            <div v-else class="mt-8 grid grid-cols-3 gap-4">
-              <div v-for="label in ['قبول خاص','قبول حكومي','تخصصات منافسة']" :key="label"
-                class="bg-rose-50/60 border border-rose-100 p-3 rounded-2xl text-center shadow-sm opacity-60">
-                <div class="text-xl font-black text-rose-300">—</div>
-                <div class="text-[10px] text-rose-400 font-black mt-1">{{ label }}</div>
-                <div class="text-[10px] text-rose-300 font-bold">موقوف</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- Available Majors -->
-      <section v-if="stage === 'senior'" class="anim-fade-d2">
-        <div class="flex items-center gap-4 mb-8">
-          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl shadow-sm border border-amber-200">🎯</div>
-          <div>
-            <h3 class="text-2xl font-black text-slate-800">التخصصات المتاحة في حقلك</h3>
-            <p class="text-sm text-slate-500 font-medium">مرتبة حسب الحد الأدنى للقبول. يعتمد القبول الفعلي على التنافس</p>
-          </div>
-        </div>
-
-        <!-- ============================================================ -->
-        <!-- MAJORS BLOCKED: تغطية كاملة عند وجود رسوب -->
-        <!-- ============================================================ -->
+        <!-- عند وجود رسوب: تُحجب قائمة التخصصات ويظهر تحذير بدلاً منها -->
         <div v-if="hasFailedSubject" class="relative">
-          <!-- Blur overlay with message -->
           <div class="rounded-3xl border-2 border-rose-200 bg-rose-50/80 backdrop-blur-sm p-10 text-center">
             <div class="text-5xl mb-4">🔒</div>
             <h3 class="text-xl font-black text-rose-700 mb-3">التخصصات موقوفة — يوجد مادة راسبة</h3>
@@ -179,17 +167,16 @@
               الجامعي كلياً. بعد معالجة المواد الراسبة وتحقيق النجاح فيها، ستظهر هنا جميع
               التخصصات المتاحة بناءً على معدلك الجديد.
             </p>
-            <!-- Faded preview of majors behind the message -->
             <div class="opacity-20 pointer-events-none space-y-2 mt-4">
               <div v-for="major in (majorsDB[field] || []).slice(0,3)" :key="major.name"
                 class="bg-white border border-slate-200 rounded-xl p-3 text-right">
-                <span class="text-sm font-black text-slate-600">{{ major.name }}</span>
+                <span class="text-sm font-black text-[#4A5568]">{{ major.name }}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Normal majors display (no failed subject) -->
+        <!-- العرض الطبيعي للتخصصات عند عدم وجود رسوب -->
         <div v-else>
           <div v-if="eligibleMajors.length > 0" class="space-y-3">
             <div v-for="(major, idx) in allFieldMajors" :key="major.name"
@@ -198,15 +185,15 @@
               <div class="flex items-center justify-between gap-4 pr-3">
                 <div class="flex items-center gap-3 flex-1 min-w-0">
                   <div class="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0"
-                    :class="major.eligible ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-50 text-slate-400 border border-slate-100'">
+                    :class="major.eligible ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-slate-50 text-[#718096] border border-slate-100'">
                     {{ idx + 1 }}
                   </div>
                   <div class="min-w-0">
-                    <h4 class="font-black text-slate-800 text-sm md:text-base leading-tight">{{ major.name }}</h4>
+                    <h4 class="font-black text-[#1E2A44] text-sm md:text-base leading-tight">{{ major.name }}</h4>
                     <div class="flex flex-wrap items-center gap-2 mt-1">
-                      <span class="text-[10px] font-bold text-slate-500">حد القبول:</span>
-                      <span class="text-xs font-black font-mono" :class="major.eligible ? 'text-emerald-600' : 'text-rose-500'">{{ major.minGPA }}%</span>
-                      <span v-if="major.govMin" class="text-[10px] font-bold text-slate-400">(حكومي: {{ major.govMin }}%)</span>
+                      <span class="text-[10px] font-bold text-[#4A5568]">حد القبول:</span>
+                      <span class="text-xs font-black" :class="major.eligible ? 'text-emerald-600' : 'text-rose-500'">{{ major.minGPA }}%</span>
+                      <span v-if="major.govMin" class="text-[10px] font-bold text-[#718096]">(حكومي: {{ major.govMin }}%)</span>
                     </div>
                   </div>
                 </div>
@@ -222,48 +209,46 @@
                   </div>
                 </div>
               </div>
-              <div v-if="major.eligible && major.competitive" class="mt-2 pr-3 text-[10px] text-amber-600 font-bold flex items-center gap-1">
+              <div v-if="major.eligible && major.competitive" class="mt-2 pr-3 text-[10px] text-[#3B4A6B] font-bold flex items-center gap-1">
                 <span>⚠️</span> تخصص تنافسي - المعدل الفعلي للقبول عادة أعلى من الحد الأدنى
               </div>
             </div>
           </div>
           <div v-else class="bg-white/80 backdrop-blur-md rounded-3xl p-8 text-center border border-slate-200">
             <span class="text-4xl block mb-3">📉</span>
-            <h3 class="text-lg font-black text-slate-600 mb-2">معدل المواد الأساسية لحقلك غير كافٍ بعد للقبول الجامعي</h3>
-            <p class="text-slate-500 text-sm max-w-lg mx-auto leading-relaxed">
+            <h3 class="text-lg font-black text-[#4A5568] mb-2">معدل المواد الأساسية لحقلك غير كافٍ بعد للقبول الجامعي</h3>
+            <p class="text-[#4A5568] text-sm max-w-lg mx-auto leading-relaxed">
               معدلك الحالي ({{ gpa }}%) لا يصل للحد الأدنى. راجع خطة التطوير الأكاديمي أدناه للتحسين.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- Subject Diagnosis -->
       <section class="anim-fade-d2">
         <div class="flex items-center gap-4 mb-8">
-          <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl shadow-sm border border-orange-200">🔍</div>
+          <div class="w-12 h-12 rounded-2xl bg-[#4A5A7A]/10 text-[#4A5A7A] flex items-center justify-center text-xl shadow-sm border border-[#4A5A7A]/20">🔍</div>
           <div>
-            <h3 class="text-2xl font-black text-slate-800">التشخيص التفصيلي للمواد</h3>
-            <p class="text-sm text-slate-500 font-medium">مرتبة من الأضعف للأقوى - تحليل الفجوة أكاديمياً</p>
+            <h3 class="text-2xl font-black text-[#1E2A44]">التشخيص التفصيلي للمواد</h3>
+            <p class="text-sm text-[#4A5568] font-medium">مرتبة من الأضعف للأقوى - تحليل الفجوة أكاديمياً</p>
           </div>
         </div>
         <div class="space-y-6">
           <div v-for="(item, idx) in sortedImprovementPlan" :key="idx"
-            class="bg-white/80 backdrop-blur-lg border border-white rounded-[2rem] overflow-hidden relative shadow-lg shadow-amber-500/5 group transition-all duration-500 hover:-translate-y-1 print:break-inside-avoid">
+            class="bg-white/80 backdrop-blur-lg border border-white rounded-[2rem] overflow-hidden relative shadow-lg shadow-[#3B4A6B]/5 group transition-all duration-500 hover:-translate-y-1 print:break-inside-avoid">
             <div class="absolute right-0 top-0 bottom-0 w-2" :class="item.accentColor"></div>
             <div class="p-6 md:p-8 pr-8">
               <div class="flex flex-col md:flex-row justify-between gap-6 mb-6">
                 <div class="flex-1">
                   <div class="flex items-center gap-3 mb-3">
                     <span class="text-3xl drop-shadow-sm">{{ item.icon }}</span>
-                    <h4 class="text-2xl font-black text-slate-800">{{ item.subject }}</h4>
-                    <span class="text-[11px] font-black px-3 py-1 rounded-full text-white shadow-sm" :class="item.statusBg">{{ item.statusText }}</span>
-                    <!-- Failed badge -->
-                    <span v-if="item.isFailed" class="text-[11px] font-black px-3 py-1 rounded-full bg-rose-600 text-white shadow-sm animate-pulse">🚫 راسب</span>
+                    <h4 class="text-2xl font-black text-[#1E2A44]">{{ item.subject }}</h4>
+                    <span v-if="!item.isFailed" class="text-[11px] font-black px-3 py-1 rounded-full text-white shadow-sm" :class="item.statusBg">{{ item.statusText }}</span>
+                    <span v-else class="text-[11px] font-black px-3 py-1 rounded-full bg-rose-600 text-white shadow-sm animate-pulse">🚫 راسب</span>
                   </div>
                   <div class="flex flex-wrap items-center gap-3 font-bold">
-                    <span class="bg-slate-50 px-3 py-1 rounded-xl border border-slate-200 font-mono text-slate-700 text-sm">{{ item.score }}%</span>
+                    <span class="bg-slate-50 px-3 py-1 rounded-xl border border-slate-200 text-[#2D3748] text-sm">{{ item.score }}%</span>
                     <span v-if="item.gapToTarget <= 0" class="text-emerald-500 text-xs">✓ مستوى تنافسي ممتاز</span>
-                    <span v-else class="text-orange-500 text-xs">{{ item.levelRangeLabel }}</span>
+                    <span v-else class="text-[#4A5A7A] text-xs">{{ item.levelRangeLabel }}</span>
                   </div>
                 </div>
                 <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-center min-w-[100px] shadow-inner shrink-0">
@@ -271,11 +256,11 @@
                   <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mb-1">
                     <div class="h-full rounded-full transition-all duration-1000" :class="item.barColor" :style="{width: item.score + '%'}"></div>
                   </div>
-                  <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">من 100</div>
+                  <div class="text-[9px] font-black text-[#718096] uppercase tracking-widest">من 100</div>
                 </div>
               </div>
 
-              <!-- Failed subject urgent action box -->
+              <!-- صندوق إجراء عاجل يظهر فقط للمواد الراسبة، لأنها تمنع القبول الجامعي -->
               <div v-if="item.isFailed" class="mb-5 p-4 rounded-2xl bg-rose-50 border-2 border-rose-200">
                 <div class="flex items-center gap-2 mb-2">
                   <span class="text-lg">🚨</span>
@@ -287,42 +272,42 @@
                 </p>
               </div>
 
-              <div class="bg-amber-50/30 rounded-2xl p-4 border border-amber-100/50 mb-5">
-                <div class="text-[10px] font-black text-amber-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">الأهمية الجامعية</div>
-                <p class="text-slate-700 text-sm leading-relaxed font-medium">{{ item.universityRelevance }}</p>
+              <div class="bg-[#3B4A6B]/5 rounded-2xl p-4 border border-[#3B4A6B]/10 mb-5">
+                <div class="text-[10px] font-black text-[#3B4A6B] uppercase tracking-wider mb-2 flex items-center gap-1.5">الأهمية الجامعية</div>
+                <p class="text-[#2D3748] text-sm leading-relaxed font-medium">{{ item.universityRelevance }}</p>
                 <div v-if="item.jobImpact?.length" class="mt-3 flex flex-wrap gap-2">
-                  <span v-for="job in item.jobImpact" :key="job" class="text-[10px] bg-white text-amber-700 border border-amber-200 px-2 py-1 rounded-lg font-bold">{{ job }}</span>
+                  <span v-for="job in item.jobImpact" :key="job" class="text-[10px] bg-white text-[#3B4A6B] border border-[#3B4A6B]/20 px-2 py-1 rounded-lg font-bold">{{ job }}</span>
                 </div>
               </div>
               <div class="grid md:grid-cols-2 gap-5 mb-4">
                 <div>
-                  <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">التشخيص الأكاديمي</div>
-                  <div class="bg-white rounded-xl p-4 border border-slate-100 text-sm text-slate-600 leading-relaxed font-medium whitespace-pre-line shadow-sm">{{ item.diagnosis }}</div>
+                  <div class="text-[10px] font-black text-[#718096] uppercase tracking-wider mb-2 flex items-center gap-1.5">التشخيص الأكاديمي</div>
+                  <div class="bg-white rounded-xl p-4 border border-slate-100 text-sm text-[#4A5568] leading-relaxed font-medium whitespace-pre-line shadow-sm">{{ item.diagnosis }}</div>
                   <div v-if="item.rootCauses?.length && item.score < 85" class="mt-3 space-y-1.5">
-                    <div v-for="cause in item.rootCauses" :key="cause" class="flex items-start gap-2 text-xs text-orange-600 font-bold">
+                    <div v-for="cause in item.rootCauses" :key="cause" class="flex items-start gap-2 text-xs text-[#4A5A7A] font-bold">
                       <span class="shrink-0 mt-0.5">⚠️</span> {{ cause }}
                     </div>
                   </div>
                 </div>
                 <div>
-                  <div class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">الاستراتيجية المقترحة</div>
+                  <div class="text-[10px] font-black text-[#718096] uppercase tracking-wider mb-2 flex items-center gap-1.5">الاستراتيجية المقترحة</div>
                   <div class="space-y-2">
-                    <div v-for="(step, i) in item.actionSteps" :key="i" class="flex items-start gap-3 p-3 rounded-xl border border-slate-50 bg-slate-50/50 hover:border-amber-200 transition-colors">
-                      <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5 border border-amber-200">{{ i+1 }}</span>
-                      <span class="text-xs text-slate-700 leading-relaxed font-bold">{{ step }}</span>
+                    <div v-for="(step, i) in item.actionSteps" :key="i" class="flex items-start gap-3 p-3 rounded-xl border border-slate-50 bg-slate-50/50 hover:border-[#3B4A6B]/30 transition-colors">
+                      <span class="w-5 h-5 rounded-full bg-[#3B4A6B]/10 text-[#3B4A6B] flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5 border border-[#3B4A6B]/20">{{ i+1 }}</span>
+                      <span class="text-xs text-[#2D3748] leading-relaxed font-bold">{{ step }}</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div v-if="item.timelineWeeks" class="inline-flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs font-bold text-slate-500 shadow-sm mt-2">
-                الوقت المقدر للهدف: <span class="text-slate-700">{{ item.timelineWeeks }}</span>
+              <div v-if="item.timelineWeeks" class="inline-flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs font-bold text-[#4A5568] shadow-sm mt-2">
+                الوقت المقدر للهدف: <span class="text-[#2D3748]">{{ item.timelineWeeks }}</span>
               </div>
               <div class="bg-slate-50/50 border-t border-slate-100 mt-5 pt-5 flex flex-wrap items-center gap-3 print:hidden">
-                <span class="text-[10px] font-black text-slate-400 uppercase">مصادر مجانية</span>
+                <span class="text-[10px] font-black text-[#718096] uppercase">مصادر مجانية</span>
                 <a v-for="res in item.resources" :key="res.name" :href="res.url" target="_blank"
-                  class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 hover:border-amber-400 hover:text-amber-600 text-xs font-black text-slate-600 transition-all shadow-sm">
+                  class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 hover:border-[#3B4A6B]/50 hover:text-[#3B4A6B] text-xs font-black text-[#4A5568] transition-all shadow-sm">
                   <span>{{ res.icon }}</span> {{ res.name }}
-                  <span class="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded font-bold text-slate-400">{{ res.type }}</span>
+                  <span class="text-[9px] bg-slate-100 px-1.5 py-0.5 rounded font-bold text-[#718096]">{{ res.type }}</span>
                 </a>
               </div>
             </div>
@@ -330,43 +315,41 @@
         </div>
       </section>
 
-      <!-- Learning Plan -->
-      <section v-if="learningPlan" class="anim-fade-d2 mt-16 bg-white/90 backdrop-blur-xl border border-white rounded-[3rem] overflow-hidden relative shadow-2xl shadow-amber-500/10 print:break-before-page">
-        <div class="h-2.5 w-full bg-gradient-to-r from-amber-400 via-orange-500 to-amber-600"></div>
+      <section v-if="learningPlan" class="anim-fade-d2 mt-16 bg-white/90 backdrop-blur-xl border border-white rounded-[3rem] overflow-hidden relative shadow-2xl shadow-[#3B4A6B]/10 print:break-before-page">
+        <div class="h-2.5 w-full bg-gradient-to-r from-[#3B4A6B] via-[#4A5A7A] to-[#5A4B8C]"></div>
         <div class="p-8 md:p-14 relative z-10">
-          <div class="absolute top-0 left-0 w-64 h-64 bg-amber-400/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute top-0 left-0 w-64 h-64 bg-[#3B4A6B]/5 rounded-full blur-3xl pointer-events-none"></div>
           <div class="flex items-start gap-5 mb-12 relative z-10">
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center text-3xl shadow-sm border border-amber-200 shrink-0">📈</div>
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3B4A6B]/10 to-[#5A4B8C]/10 flex items-center justify-center text-3xl shadow-sm border border-[#3B4A6B]/20 shrink-0">📈</div>
             <div>
-              <h3 class="text-2xl md:text-3xl font-black text-slate-800">{{ learningPlan.title }}</h3>
-              <p class="text-amber-600 font-bold mt-1.5 text-sm uppercase tracking-wide">{{ learningPlan.subtitle }}</p>
+              <h3 class="text-2xl md:text-3xl font-black text-[#1E2A44]">{{ learningPlan.title }}</h3>
+              <p class="text-[#3B4A6B] font-bold mt-1.5 text-sm uppercase tracking-wide">{{ learningPlan.subtitle }}</p>
               <p v-if="learningPlan.note" class="text-xs text-rose-600 font-bold mt-3 bg-rose-50 px-3 py-1.5 rounded-lg inline-block border border-rose-200">{{ learningPlan.note }}</p>
             </div>
           </div>
           <div class="relative z-10 pr-4">
-            <div class="absolute right-[19px] md:right-[23px] top-5 bottom-5 w-1 bg-gradient-to-b from-amber-200 via-orange-200 to-transparent rounded-full"></div>
+            <div class="absolute right-[19px] md:right-[23px] top-5 bottom-5 w-1 bg-gradient-to-b from-[#3B4A6B]/30 via-[#4A5A7A]/20 to-transparent rounded-full"></div>
             <div class="space-y-10">
               <div v-for="(phase, idx) in learningPlan.phases" :key="idx" class="relative flex gap-6 md:gap-8 group">
                 <div class="relative z-10 shrink-0">
-                  <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-4 border-amber-400 flex items-center justify-center text-amber-600 font-black text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">{{ idx+1 }}</div>
+                  <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-4 border-[#3B4A6B] flex items-center justify-center text-[#3B4A6B] font-black text-lg shadow-lg group-hover:scale-110 transition-transform duration-300">{{ idx+1 }}</div>
                 </div>
                 <div class="flex-1 pb-2">
                   <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <h4 class="text-xl font-black text-slate-800">{{ phase.name }}</h4>
-                    <span v-if="phase.duration" class="text-[10px] bg-slate-100 text-slate-500 px-3 py-1 rounded-full font-black border border-slate-200 tracking-widest">{{ phase.duration }}</span>
+                    <h4 class="text-xl font-black text-[#1E2A44]">{{ phase.name }}</h4>
+                    <span v-if="phase.duration" class="text-[10px] bg-slate-100 text-[#4A5568] px-3 py-1 rounded-full font-black border border-slate-200 tracking-widest">{{ phase.duration }}</span>
                     <span v-if="phase.target" class="text-[10px] bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-black border border-emerald-200">{{ phase.target }}</span>
                   </div>
                   <div class="grid sm:grid-cols-2 gap-4">
-                    <div v-for="(step, i) in phase.steps" :key="i" class="flex items-start gap-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-amber-300 hover:shadow-md transition-all">
-                      <span class="text-amber-500 mt-0.5">✓</span>
-                      <span class="text-sm text-slate-600 leading-relaxed font-bold">{{ step }}</span>
+                    <div v-for="(step, i) in phase.steps" :key="i" class="flex items-start gap-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-[#3B4A6B]/30 hover:shadow-md transition-all">
+                      <span class="text-[#3B4A6B] mt-0.5">✓</span>
+                      <span class="text-sm text-[#4A5568] leading-relaxed font-bold">{{ step }}</span>
                     </div>
                   </div>
-                  <!-- Resources per phase if available -->
                   <div v-if="phase.resources?.length" class="mt-4 flex flex-wrap gap-2">
-                    <span class="text-[10px] font-black text-slate-400 uppercase self-center">أدوات الخطوة:</span>
+                    <span class="text-[10px] font-black text-[#718096] uppercase self-center">أدوات الخطوة:</span>
                     <a v-for="res in phase.resources" :key="res.name" :href="res.url" target="_blank"
-                      class="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200 hover:border-amber-400 hover:text-amber-700 text-xs font-black text-amber-600 transition-all shadow-sm print:hidden">
+                      class="flex items-center gap-1.5 bg-[#3B4A6B]/5 px-3 py-1.5 rounded-lg border border-[#3B4A6B]/20 hover:border-[#3B4A6B]/50 hover:text-[#3B4A6B] text-xs font-black text-[#3B4A6B] transition-all shadow-sm print:hidden">
                       <span>{{ res.icon }}</span> {{ res.name }}
                     </a>
                   </div>
@@ -375,21 +358,20 @@
             </div>
           </div>
 
-          <!-- Success metrics section -->
           <div v-if="learningPlan.metrics" class="mt-12 pt-8 border-t border-slate-100 relative z-10">
-            <h4 class="text-sm font-black text-slate-500 uppercase tracking-wider mb-4 text-center">مؤشرات النجاح الأسبوعية</h4>
+            <h4 class="text-sm font-black text-[#4A5568] uppercase tracking-wider mb-4 text-center">مؤشرات النجاح الأسبوعية</h4>
             <div class="grid sm:grid-cols-3 gap-4">
               <div v-for="metric in learningPlan.metrics" :key="metric.label"
-                class="bg-amber-50/50 border border-amber-100 rounded-2xl p-4 text-center">
+                class="bg-[#3B4A6B]/5 border border-[#3B4A6B]/10 rounded-2xl p-4 text-center">
                 <div class="text-2xl mb-1">{{ metric.icon }}</div>
-                <div class="text-xs font-black text-amber-700">{{ metric.label }}</div>
-                <div class="text-[10px] text-amber-500 font-bold mt-1">{{ metric.value }}</div>
+                <div class="text-xs font-black text-[#3B4A6B]">{{ metric.label }}</div>
+                <div class="text-[10px] text-[#4A5A7A] font-bold mt-1">{{ metric.value }}</div>
               </div>
             </div>
           </div>
 
           <div class="mt-16 pt-8 border-t border-slate-100 text-center relative z-10">
-            <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed max-w-2xl mx-auto">"{{ learningPlan.quote }}"</p>
+            <p class="text-[#4A5568] font-bold text-sm md:text-base leading-relaxed max-w-2xl mx-auto">"{{ learningPlan.quote }}"</p>
           </div>
         </div>
       </section>
@@ -412,15 +394,8 @@ const field = route.query.field || 'EngineeringIT'
 const grades = JSON.parse(route.query.grades || '{}')
 const gpa = parseFloat(route.query.gpa || 0)
 
-// =============================================
-// LEVEL RANGES - UNIFIED ACROSS ALL COMPONENTS
-// fail:   0–49   | راسب
-// weak:   50–64  | مقبول
-// good:   65–79  | جيد
-// vgood:  80–92  | جيد جداً
-// excel:  93–100 | امتياز
-// =============================================
-
+// نطاقات المستوى موحّدة عبر جميع المكوّنات:
+// راسب 0-49 | مقبول 50-64 | جيد 65-79 | جيد جداً 80-92 | امتياز 93-100
 const subjectMeta = {
   math: {
     icon: '🔢',
@@ -989,9 +964,6 @@ const subjectMeta = {
   }
 }
 
-// =============================================
-// RESOURCES DATABASE
-// =============================================
 const resourcesDB = {
   math: [
     { name: 'قناة الأوائل', url: 'https://awa2el.net', icon: '▶️', type: 'عربي' },
@@ -1072,9 +1044,6 @@ const resourcesDB = {
   ]
 }
 
-// =============================================
-// MAJORS DB
-// =============================================
 const majorsDB = {
   Health: [
     { name: 'طب بشري', minGPA: 85, govMin: 85, competitive: true },
@@ -1155,7 +1124,6 @@ function getSubjectIcon(k) {
   return subjectMeta[k]?.icon || '📚'
 }
 
-// UNIFIED LEVEL FUNCTION
 function getLevel(score) {
   if (score < 50) return 'fail'
   if (score < 65) return 'weak'
@@ -1201,8 +1169,8 @@ function buildImprovementItem(key, score) {
 
   const colorMap = {
     fail: { accent: 'bg-rose-400', bar: 'bg-rose-400', status: 'bg-rose-500', statusText: 'راسب', scoreText: 'text-rose-500' },
-    weak: { accent: 'bg-amber-400', bar: 'bg-amber-400', status: 'bg-amber-500', statusText: 'مقبول', scoreText: 'text-amber-600' },
-    good: { accent: 'bg-yellow-400', bar: 'bg-yellow-400', status: 'bg-yellow-500', statusText: 'جيد', scoreText: 'text-yellow-600' },
+    weak: { accent: 'bg-[#4A5A7A]', bar: 'bg-[#4A5A7A]', status: 'bg-[#4A5A7A]', statusText: 'مقبول', scoreText: 'text-[#4A5A7A]' },
+    good: { accent: 'bg-[#3B4A6B]', bar: 'bg-[#3B4A6B]', status: 'bg-[#3B4A6B]', statusText: 'جيد', scoreText: 'text-[#3B4A6B]' },
     vgood: { accent: 'bg-sky-400', bar: 'bg-sky-400', status: 'bg-sky-500', statusText: 'جيد جداً', scoreText: 'text-sky-600' },
     excel: { accent: 'bg-emerald-400', bar: 'bg-emerald-400', status: 'bg-emerald-500', statusText: 'امتياز', scoreText: 'text-emerald-600' }
   }
@@ -1242,9 +1210,6 @@ const sortedImprovementPlan = computed(() => {
   return Object.entries(grades).map(([k, s]) => buildImprovementItem(k, Number(s))).sort((a, b) => a.score - b.score)
 })
 
-// =============================================
-// FAILED SUBJECTS LIST - for the critical banner
-// =============================================
 const failedSubjectsList = computed(() => {
   return Object.entries(grades)
     .filter(([, s]) => Number(s) < 50)
@@ -1265,9 +1230,7 @@ const privateMin = privateMinByField[field] || 60
 const govMin = govMinByField[field] || 65
 const competitiveMin = competitiveByField[field] || 80
 
-// =============================================
-// hasFailedSubject: true if ANY subject < 50
-// =============================================
+// إذا رسب الطالب في أي مادة (< 50%)، يُعتبر غير مؤهل للقبول الجامعي بغض النظر عن المعدل
 const hasFailedSubject = Object.values(grades).some(s => Number(s) < 50)
 
 const allFieldMajors = computed(() => {
@@ -1280,15 +1243,11 @@ const allFieldMajors = computed(() => {
 
 const eligibleMajors = computed(() => allFieldMajors.value.filter(m => m.eligible))
 
-// =============================================
-// LEARNING PLAN - Enhanced with resources per phase and metrics
-// =============================================
 const learningPlan = computed(() => {
   if (source !== 'grades') return null
   const weakSubjects = Object.entries(grades).filter(([, s]) => Number(s) < 65).map(([k]) => getSubjectName(k))
   const failedSubjects = Object.entries(grades).filter(([, s]) => Number(s) < 50).map(([k]) => getSubjectName(k))
 
-  // LEVEL: fail (gpa < 50) or has failed subject
   if (gpa < 50 || hasFailedSubject) return {
     title: 'برنامج التدخل العلاجي المكثف',
     subtitle: 'Academic Remediation Program — المستوى دون الحد الأدنى للنجاح',
@@ -1355,7 +1314,6 @@ const learningPlan = computed(() => {
     ]
   }
 
-  // LEVEL: weak (gpa 50-64)
   if (gpa < 65) return {
     title: 'برنامج تعزيز الكفاءة الأكاديمية',
     subtitle: 'Academic Proficiency Enhancement — المستوى دون حد القبول الجامعي',
@@ -1422,7 +1380,6 @@ const learningPlan = computed(() => {
     ]
   }
 
-  // LEVEL: good (gpa 65-79)
   if (gpa < 80) return {
     title: 'برنامج التطوير الأكاديمي التنافسي',
     subtitle: 'Competitive Academic Development — المستوى: مؤهل للقبول / ما دون التنافسي',
@@ -1489,7 +1446,6 @@ const learningPlan = computed(() => {
     ]
   }
 
-  // LEVEL: vgood (gpa 80-92)
   if (gpa < 93) return {
     title: 'برنامج الإتقان الأكاديمي',
     subtitle: 'Academic Mastery Program — المستوى: تنافسي / ما دون الامتياز',
@@ -1555,7 +1511,6 @@ const learningPlan = computed(() => {
     ]
   }
 
-  // LEVEL: excel (gpa 93+)
   return {
     title: 'برنامج الحفاظ على التميز والجاهزية الجامعية',
     subtitle: 'Excellence Maintenance & University Readiness — المستوى: امتياز',
@@ -1607,30 +1562,27 @@ const learningPlan = computed(() => {
   }
 })
 
-// =============================================
-// COMPUTED STYLING
-// =============================================
 const gpaAccentBar = computed(() => {
   if (gpa >= 93) return 'bg-gradient-to-r from-emerald-400 to-emerald-500'
   if (gpa >= 80) return 'bg-gradient-to-r from-sky-400 to-sky-500'
-  if (gpa >= 65) return 'bg-gradient-to-r from-amber-400 to-amber-500'
-  if (gpa >= 50) return 'bg-gradient-to-r from-orange-400 to-orange-500'
+  if (gpa >= 65) return 'bg-gradient-to-r from-[#3B4A6B] to-[#4A5A7A]'
+  if (gpa >= 50) return 'bg-gradient-to-r from-[#5A4B8C] to-[#4A5A7A]'
   return 'bg-gradient-to-r from-rose-400 to-rose-500'
 })
 
 const gpaCircleColor = computed(() => {
   if (gpa >= 93) return '#10b981'
   if (gpa >= 80) return '#0ea5e9'
-  if (gpa >= 65) return '#f59e0b'
-  if (gpa >= 50) return '#f97316'
+  if (gpa >= 65) return '#3B4A6B'
+  if (gpa >= 50) return '#5A4B8C'
   return '#f43f5e'
 })
 
 const gpaStatusBadge = computed(() => {
   if (gpa >= 93) return 'bg-emerald-50 border-emerald-200 text-emerald-700'
   if (gpa >= 80) return 'bg-sky-50 border-sky-200 text-sky-700'
-  if (gpa >= 65) return 'bg-amber-50 border-amber-200 text-amber-700'
-  if (gpa >= 50) return 'bg-orange-50 border-orange-200 text-orange-600'
+  if (gpa >= 65) return 'bg-[#3B4A6B]/5 border-[#3B4A6B]/30 text-[#3B4A6B]'
+  if (gpa >= 50) return 'bg-[#5A4B8C]/5 border-[#5A4B8C]/30 text-[#5A4B8C]'
   return 'bg-rose-50 border-rose-200 text-rose-600'
 })
 
@@ -1665,10 +1617,9 @@ function printReport() { window.print() }
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 .font-sans { font-family: 'Tajawal', sans-serif; }
-.font-mono { font-family: 'IBM Plex Mono', monospace; }
 .anim-fade { animation: fadeUp 0.8s ease-out both; }
 .anim-fade-d1 { animation: fadeUp 0.8s 0.2s ease-out both; }
 .anim-fade-d2 { animation: fadeUp 0.8s 0.4s ease-out both; }
@@ -1686,14 +1637,14 @@ function printReport() { window.print() }
 .animate-aura { animation: aura 15s ease-in-out infinite; }
 
 .nav-btn {
-  font-size: 0.8rem; font-weight: 700; color: #64748b; background: white;
-  border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 16px; transition: all 0.2s;
+  font-size: 0.8rem; font-weight: 700; color: #4A5568; background: white;
+  border: 1px solid #E2E8F0; border-radius: 12px; padding: 8px 16px; transition: all 0.2s;
 }
 .nav-btn-primary {
   font-size: 0.8rem; font-weight: 700; color: white;
-  background: #1e293b; border-radius: 12px; padding: 8px 16px; transition: all 0.2s;
+  background: #3B4A6B; border-radius: 12px; padding: 8px 16px; transition: all 0.2s;
 }
-.nav-btn-primary:hover { background: #0f172a; }
+.nav-btn-primary:hover { background: #2E3A59; }
 
 @media print {
   .print\:hidden { display: none !important; }

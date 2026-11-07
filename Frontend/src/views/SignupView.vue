@@ -11,10 +11,12 @@
     <div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[100px] pointer-events-none z-0 animate-blob"></div>
     <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[100px] pointer-events-none z-0 animate-blob animation-delay-2000"></div>
 
-    <button @click="goBack" class="absolute top-6 right-6 md:top-10 md:right-10 flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-all duration-300 font-bold group z-50 bg-white/60 backdrop-blur-md px-5 py-2.5 rounded-2xl shadow-sm hover:shadow-md border border-white">
-      <span class="text-xl group-hover:translate-x-1 transition-transform duration-300">→</span>
-      <span>العودة للرئيسية</span>
-    </button>
+    <div class="absolute top-0 left-0 right-0 w-full max-w-7xl mx-auto px-6 pt-6 md:pt-10 flex justify-end z-50 pointer-events-none">
+      <button @click="goBack" class="pointer-events-auto flex items-center gap-2 text-slate-500 hover:text-indigo-600 transition-all duration-300 font-bold group bg-white/80 backdrop-blur-md px-5 py-2.5 rounded-2xl shadow-sm hover:shadow-md border border-slate-200">
+        <span class="text-xl">🏠</span>
+        <span>الرئيسية</span>
+      </button>
+    </div>
 
     <main class="relative z-10 w-full max-w-lg bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-indigo-500/10 border border-white p-8 md:p-10 anim-fade-up">
       
@@ -29,7 +31,7 @@
       <form @submit.prevent="handleSubmit" class="space-y-6">
         
         <div class="space-y-2">
-          <label class="block text-sm font-black text-slate-700 pr-2">الاسم الكامل</label>
+          <label class="block text-sm font-black text-slate-700 pr-2">الاسم</label>
           <div class="relative group">
             <span class="absolute inset-y-0 right-4 flex items-center text-slate-400 group-focus-within:text-indigo-500 transition-colors">👤</span>
             <input 
@@ -130,7 +132,7 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 
-const isLeaving = ref(false) // متغير للتحكم بالانتقال السلس (Smooth Transition)
+const isLeaving = ref(false)
 
 const form = reactive({
   name: '',
@@ -159,15 +161,13 @@ const isFormValid = computed(() => {
   return form.name.trim().length > 0 && form.gender.length > 0 && form.gradeLevel.length > 0
 })
 
-// دالة العودة مع انتقال سلس
 function goBack() {
   isLeaving.value = true
   setTimeout(() => {
     router.push('/')
-  }, 400) // الانتظار حتى ينتهي تأثير الـ Fade-out
+  }, 400) 
 }
 
-// دالة الحفظ مع انتقال سلس
 function handleSubmit() {
   if (!isFormValid.value) return
   
@@ -192,7 +192,6 @@ function handleSubmit() {
 .font-sans { font-family: 'Tajawal', sans-serif; }
 .font-mono { font-family: 'IBM Plex Mono', monospace; }
 
-/* حركات الخلفية */
 @keyframes blob { 
   0% { transform: translate(0, 0) scale(1); } 
   33% { transform: translate(30px, -50px) scale(1.05); } 
@@ -202,14 +201,12 @@ function handleSubmit() {
 .animate-blob { animation: blob 12s infinite alternate; }
 .animation-delay-2000 { animation-delay: 2s; }
 
-/* حركة الظهور عند فتح الصفحة (Fade Up) */
 .anim-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes fadeUp { 
   from { opacity: 0; transform: translateY(30px) scale(0.95); } 
   to { opacity: 1; transform: translateY(0) scale(1); } 
 }
 
-/* تخصيص حواف حقول الإدخال */
 input::placeholder {
   color: #94a3b8;
   font-weight: 500;

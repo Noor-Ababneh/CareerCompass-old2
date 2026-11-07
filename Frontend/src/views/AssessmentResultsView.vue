@@ -1,26 +1,26 @@
 <template>
-  <div class="min-h-screen bg-[#FDFCF9] font-sans selection:bg-amber-500 selection:text-white relative overflow-x-hidden" dir="rtl">
+  <div class="min-h-screen bg-[#F8FAFF] font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden" dir="rtl">
     
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-amber-400/10 blur-[120px] animate-aura"></div>
-      <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-yellow-500/10 blur-[100px] animate-aura" style="animation-delay: -4s;"></div>
-      <div class="absolute top-[40%] left-[40%] w-[400px] h-[400px] rounded-full bg-amber-200/10 blur-[100px] animate-aura" style="animation-delay: -8s;"></div>
-      <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#d97706 1px, transparent 1px); background-size: 32px 32px;"></div>
+      <div class="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-indigo-500/10 blur-[120px] animate-aura"></div>
+      <div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-[100px] animate-aura" style="animation-delay: -4s;"></div>
+      <div class="absolute top-[40%] left-[40%] w-[400px] h-[400px] rounded-full bg-blue-400/10 blur-[100px] animate-aura" style="animation-delay: -8s;"></div>
+      <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#4f46e5 1px, transparent 1px); background-size: 32px 32px;"></div>
     </div>
 
     <nav class="relative z-50 max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b border-slate-200/50 backdrop-blur-md">
       <div class="flex items-center gap-3 cursor-pointer group" @click="$router.push('/')">
-        <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
+        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:rotate-12 transition-transform">
           <span class="text-white text-xl">🧭</span>
         </div>
-        <span class="text-2xl font-black text-slate-800">Career<span class="text-amber-500">Compass</span></span>
+        <span class="text-2xl font-black text-slate-800">Career<span class="text-indigo-600">Compass</span></span>
       </div>
       
       <div class="flex items-center gap-3">
-        <button @click="goImprovement" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-xl font-bold text-sm transition-all shadow-md hover:-translate-y-0.5">
+        <button @click="goImprovement" class="bg-indigo-800 hover:bg-indigo-900 text-white px-5 py-2 rounded-xl font-bold text-sm transition-all shadow-md hover:-translate-y-0.5 border border-indigo-700">
           خطة التطوير الأكاديمي
         </button>
-        <button @click="retake" class="text-slate-500 hover:text-amber-600 font-bold text-sm transition-colors px-2">
+        <button @click="retake" class="text-slate-500 hover:text-indigo-600 font-bold text-sm transition-colors px-2">
           إعادة المقياس
         </button>
       </div>
@@ -29,16 +29,16 @@
     <main class="relative z-10 max-w-6xl mx-auto px-6 py-12 md:py-16">
       
       <section class="text-center mb-16 anim-fade-up">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-6 border bg-white border-amber-200 text-amber-700 shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-6 border bg-white border-indigo-200 text-indigo-700 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
           تم اكتمال التحليل المنهجي بنجاح
         </div>
         
         <h1 class="text-3xl md:text-5xl font-black text-slate-800 leading-tight mb-6">
           بناءً على ميولك، الحقل الأنسب لك هو <br>
-          <span class="inline-flex items-center gap-2 mt-4 px-6 py-2 rounded-2xl border-2 border-amber-200/50 shadow-sm bg-white/50">
+          <span class="inline-flex items-center gap-2 mt-4 px-6 py-2 rounded-2xl border-2 border-indigo-200/50 shadow-sm bg-white/50">
             <span class="pb-1">{{ fieldEmoji }}</span>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-yellow-500 font-black pb-2">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-500 font-black pb-2">
               {{ fieldName }}
             </span>
           </span>
@@ -51,13 +51,13 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         
-        <div class="bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] p-8 shadow-xl shadow-amber-500/5 anim-fade-up" style="animation-delay: 0.2s;">
+        <div class="bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] p-8 shadow-xl shadow-indigo-500/5 anim-fade-up" style="animation-delay: 0.2s;">
           <div class="flex justify-between items-start mb-10">
             <div>
               <h3 class="text-xl font-black text-slate-800 mb-1">توزيع الأبعاد الشخصية</h3>
               <p class="text-xs text-slate-400 font-bold tracking-wider uppercase">RIASEC Profile</p>
             </div>
-            <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-lg font-mono font-black tracking-[4px] border border-amber-200">
+            <div class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-lg font-mono font-black tracking-[4px] border border-indigo-200">
               {{ riasecCode }}
             </div>
           </div>
@@ -66,7 +66,7 @@
             <div v-for="(dim, key) in dimensionsDisplay" :key="key" class="space-y-2">
               <div class="flex justify-between items-center text-xs font-bold text-slate-600 px-1">
                 <span class="flex items-center gap-2">{{ dim.icon }} {{ dim.name }}</span>
-                <span class="text-amber-600">{{ dimPercent(key) }}%</span>
+                <span class="text-indigo-600">{{ dimPercent(key) }}%</span>
               </div>
               <div class="h-2.5 bg-slate-100 rounded-full overflow-hidden">
                 <div 
@@ -78,7 +78,7 @@
           </div>
         </div>
 
-        <div class="bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] p-8 shadow-xl shadow-amber-500/5 anim-fade-up" style="animation-delay: 0.3s;">
+        <div class="bg-white/70 backdrop-blur-xl border border-white rounded-[2.5rem] p-8 shadow-xl shadow-indigo-500/5 anim-fade-up" style="animation-delay: 0.3s;">
           <div class="mb-8">
             <h3 class="text-xl font-black text-slate-800 mb-1">سماتك الأكاديمية</h3>
             <p class="text-xs text-slate-400 font-bold">بناءً على أعلى أنماطك: {{ riasecCode.slice(0, 2) }}</p>
@@ -92,7 +92,7 @@
             </span>
           </div>
 
-          <div class="bg-amber-50/50 rounded-2xl p-6 border border-amber-100 mb-8">
+          <div class="bg-indigo-50/50 rounded-2xl p-6 border border-indigo-100 mb-8">
             <p class="text-slate-700 text-sm leading-relaxed font-medium whitespace-pre-line">
               {{ personalitySummary }}
             </p>
@@ -114,13 +114,13 @@
           </div>
         </div>
 
-        <div class="lg:col-span-2 bg-white/80 backdrop-blur-xl border border-white rounded-[3rem] p-8 md:p-12 shadow-2xl shadow-amber-500/10 anim-fade-up" style="animation-delay: 0.4s;">
+        <div class="lg:col-span-2 bg-white/80 backdrop-blur-xl border border-white rounded-[3rem] p-8 md:p-12 shadow-2xl shadow-indigo-500/10 anim-fade-up" style="animation-delay: 0.4s;">
           <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12 border-b border-slate-100 pb-8">
             <div class="text-center md:text-right">
               <h3 class="text-2xl font-black text-slate-800 mb-2">أفضل 3 تخصصات مرشحة لك</h3>
               <p class="text-slate-500 font-medium">مرتبة حسب أعلى نسبة تطابق مع قدراتك المكتشفة</p>
             </div>
-            <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl text-white font-black text-lg shadow-lg shadow-amber-500/20" :style="{ background: topField.color }">
+            <div class="inline-flex items-center gap-2 px-6 py-2 rounded-2xl text-white font-black text-lg shadow-lg" :style="{ background: topField.color, boxShadow: `0 10px 15px -3px ${topField.color}33` }">
               <span>{{ fieldEmoji }}</span>
               <span> {{ fieldName }}</span>
             </div>
@@ -130,7 +130,7 @@
             <div v-for="(major, idx) in topMajors" :key="major.name" 
               class="relative bg-white border border-slate-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-2 group overflow-hidden">
               
-              <div class="absolute -top-4 -left-4 w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-2xl font-black text-slate-200 group-hover:text-amber-200 transition-colors">
+              <div class="absolute -top-4 -left-4 w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-2xl font-black text-slate-200 group-hover:text-indigo-200 transition-colors">
                 #{{ idx + 1 }}
               </div>
 
@@ -151,7 +151,7 @@
                    </div>
                 </div>
 
-                <h4 class="text-lg font-black text-slate-800 text-center mb-3 group-hover:text-amber-600 transition-colors">{{ major.name }}</h4>
+                <h4 class="text-lg font-black text-slate-800 text-center mb-3 group-hover:text-indigo-600 transition-colors">{{ major.name }}</h4>
                 
                 <div class="bg-slate-50 rounded-xl p-3 mb-4 text-center border border-slate-100">
                   <span class="text-[10px] font-bold text-slate-400 block mb-1">الحد الأدنى للقبول المتوقع</span>
@@ -167,7 +167,7 @@
 
           <div class="mt-16 text-center">
             <p class="text-sm font-bold text-slate-400 mb-6 italic">لمعرفة العلامات التي تحتاجها للوصول لهذه التخصصات وبناء خطة نجاحك:</p>
-            <button @click="goImprovement" class="group relative px-10 py-5 rounded-[2rem] font-black text-xl text-white transition-all shadow-xl hover:shadow-amber-500/30 hover:-translate-y-1 overflow-hidden" :style="{ background: topField.color }">
+            <button @click="goImprovement" class="group relative px-10 py-5 rounded-[2rem] font-black text-xl text-white transition-all shadow-xl hover:-translate-y-1 overflow-hidden" :style="{ background: topField.color, boxShadow: `0 20px 25px -5px ${topField.color}40` }">
               <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
               احسب علاماتي وابدأ خطة التطوير الأكاديمي ←
             </button>
@@ -176,7 +176,7 @@
       </div>
 
       <p class="text-center text-slate-400 text-xs font-bold tracking-widest uppercase">
-        CareerCompass • دليلك الأكاديمي المعتمد • الأردن 2025
+        CareerCompass • دليلك الأكاديمي المعتمد • الأردن 2026
       </p>
     </main>
   </div>
@@ -185,7 +185,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { riasecQuestions, JORDANIAN_FIELDS, computeFieldFromRIASEC, computeTopMajors } from '@/data/riasecQuestions'
+import { JORDANIAN_FIELDS } from '@/data/riasecQuestions'
 
 const router = useRouter()
 const route = useRoute()
@@ -196,19 +196,16 @@ onMounted(() => {
   window.scrollTo({ top: 0, behavior: 'instant' })
 })
 
-const rawScores = JSON.parse(route.query.scores || '{"R":0,"I":0,"A":0,"S":0,"E":0,"C":0}')
-const scores = ref(rawScores)
+const resultData = JSON.parse(route.query.resultData || '{}')
+
+const scores = ref(resultData.scores || { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 })
+const riasecCode = ref(resultData.riasec_code || '---')
+const topFieldKey = ref(resultData.field || 'Business')
+const topMajors = ref(resultData.top_majors || [])
 
 const sortedScores = computed(() => Object.entries(scores.value).sort((a, b) => b[1] - a[1]))
-const riasecCode = computed(() => sortedScores.value.slice(0, 3).map(e => e[0]).join(''))
-
-const topFieldKey = computed(() => {
-  if (route.query.field) return route.query.field
-  return computeFieldFromRIASEC(scores.value)
-})
-
 const topField = computed(() => JORDANIAN_FIELDS[topFieldKey.value] || JORDANIAN_FIELDS.Business)
-const totalQuestions = riasecQuestions.length
+const totalQuestions = 42
 
 const fieldEmoji = computed(() => {
   const name = topField.value.name || ''
@@ -222,44 +219,39 @@ const fieldName = computed(() => {
 })
 
 function dimPercent(dim) {
-  const qs = riasecQuestions.filter(q => q.dimension === dim)
-  const maxScore = qs.reduce((s, q) => s + 5 * (q.type === 'interest' ? 1.0 : q.type === 'aptitude' ? 1.5 : 1.2), 0)
-  return maxScore > 0 ? Math.round((scores.value[dim] || 0) / maxScore * 100) : 0
+  return resultData.dimension_percent ? (resultData.dimension_percent[dim] || 0) : 0
 }
 
 function fieldMatchPercent(fieldKey) {
-  const field = JORDANIAN_FIELDS[fieldKey]
-  if (!field) return 0
-  const chars = field.riasecCode.split('')
-  const score = chars.reduce((s, d) => s + (scores.value[d] || 0), 0)
-  const max = chars.reduce((sum, dim) => {
-    const qs = riasecQuestions.filter(q => q.dimension === dim)
-    return sum + qs.reduce((s, q) => s + 5 * (q.type === 'interest' ? 1.0 : q.type === 'aptitude' ? 1.5 : 1.2), 0)
-  }, 0)
-  return max > 0 ? Math.round(score / max * 100) : 0
+  return resultData.field_match_percent ? (resultData.field_match_percent[fieldKey] || 0) : 0
 }
-
-const topMajors = computed(() => computeTopMajors(scores.value, topFieldKey.value))
-
 const dimensionsDisplay = {
-  R: { name: 'واقعي تقني', icon: '🛠️', gradient: 'linear-gradient(90deg, #f97316, #fb923c)', delay: '0.1s' },
-  I: { name: 'تحليلي بحثي', icon: '🔬', gradient: 'linear-gradient(90deg, #6366f1, #818cf8)', delay: '0.2s' },
-  A: { name: 'إبداعي فني', icon: '🎨', gradient: 'linear-gradient(90deg, #ec4899, #f472b6)', delay: '0.3s' },
-  S: { name: 'اجتماعي مساعد', icon: '🤝', gradient: 'linear-gradient(90deg, #10b981, #34d399)', delay: '0.4s' },
-  E: { name: 'قيادي ريادي', icon: '🚀', gradient: 'linear-gradient(90deg, #f59e0b, #fbbf24)', delay: '0.5s' },
-  C: { name: 'دقيق منظم', icon: '📋', gradient: 'linear-gradient(90deg, #0ea5e9, #38bdf8)', delay: '0.6s' }
+  R: { name: 'واقعي تقني', icon: '🛠️', gradient: 'linear-gradient(90deg, #64748B, #94A3B8)', delay: '0.1s' }, // رمادي/أزرق
+  I: { name: 'تحليلي بحثي', icon: '🔬', gradient: 'linear-gradient(90deg, #4338CA, #6366F1)', delay: '0.2s' }, // نيلي
+  A: { name: 'إبداعي فني', icon: '🎨', gradient: 'linear-gradient(90deg, #F472B6, #FBCFE8)', delay: '0.3s' }, // بيبي بينك
+  S: { name: 'اجتماعي مساعد', icon: '🤝', gradient: 'linear-gradient(90deg, #059669, #34D399)', delay: '0.4s' }, // أخضر زمردي
+  E: { name: 'قيادي ريادي', icon: '🚀', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', delay: '0.5s' }, // أزرق/بنفسجي
+  C: { name: 'دقيق منظم', icon: '📋', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', delay: '0.6s' } // أزرق سماوي
 }
 
-const fieldsData = computed(() => JORDANIAN_FIELDS)
+const fieldsData = computed(() => {
+  
+  const updatedFields = { ...JORDANIAN_FIELDS };
+  if(updatedFields.Health) updatedFields.Health.color = '#3b82f6'; // أزرق
+  if(updatedFields.EngineeringIT) updatedFields.EngineeringIT.color = '#4f46e5'; // نيلي
+  if(updatedFields.Humanities) updatedFields.Humanities.color = '#8b5cf6'; // بنفسجي
+  if(updatedFields.Business) updatedFields.Business.color = '#0ea5e9'; // سماوي
+  return updatedFields;
+})
 
 const personalityTraits = computed(() => {
-  const top2 = sortedScores.value.slice(0, 2).map(e => e[0])
+  const top2 = riasecCode.value.slice(0, 2).split('')
   const traitMap = {
-    R: [{ icon: '⚙️', label: 'عملي وميداني', bg: '#fff7ed', border: '#fed7aa', color: '#c2410c' }],
+    R: [{ icon: '⚙️', label: 'عملي وميداني', bg: '#f1f5f9', border: '#cbd5e1', color: '#334155' }],
     I: [{ icon: '🕵️', label: 'فضولي تحليلي', bg: '#eef2ff', border: '#c7d2fe', color: '#4338ca' }],
-    A: [{ icon: '✨', label: 'مبدع تعبيري', bg: '#fdf4ff', border: '#e9d5ff', color: '#7e22ce' }],
+    A: [{ icon: '✨', label: 'مبدع تعبيري', bg: '#fdf2f8', border: '#fbcfe8', color: '#be185d' }],
     S: [{ icon: '❤️', label: 'متعاطف ومتفهم', bg: '#f0fdf4', border: '#bbf7d0', color: '#15803d' }],
-    E: [{ icon: '🏆', label: 'قيادي طموح', bg: '#fffbeb', border: '#fde68a', color: '#92400E' }],
+    E: [{ icon: '🏆', label: 'قيادي طموح', bg: '#eff6ff', border: '#bfdbfe', color: '#1d4ed8' }],
     C: [{ icon: '📊', label: 'منظم ومنهجي', bg: '#f0f9ff', border: '#bae6fd', color: '#0c4a6e' }]
   }
   let traits = []
@@ -268,7 +260,7 @@ const personalityTraits = computed(() => {
 })
 
 const personalitySummary = computed(() => {
-  const top = sortedScores.value[0][0]; const sec = sortedScores.value[1][0]
+  const code2 = riasecCode.value.slice(0, 2)
   const summaries = {
     RI: 'أنت شخصية عملية تحليلية، تحول الأفكار المعقدة إلى نتائج ملموسة. تجمع بين الدقة التقنية والتحليل العميق.',
     IR: 'ذهنك تحليلي بطبيعته، تميل لحل المشكلات الهندسية والعلمية المعقدة بمنهجية واضحة ومثبتة.',
@@ -287,7 +279,7 @@ const personalitySummary = computed(() => {
     CE: 'منظم طموح؛ تجيد إنجاز الأهداف بكفاءة عالية، وتبرع في مجالات المحاسبة وإدارة المشاريع.',
     CS: 'دقيق خادم؛ تتقن تنظيم البيانات وتضعها في خدمة الآخرين، وتناسبك الإدارة الصحية المعلوماتية.'
   }
-  return summaries[top + sec] || 'شخصيتك تجمع أبعاداً متنوعة تتيح لك النجاح في عدة مجالات متداخلة.'
+  return summaries[code2] || 'شخصيتك تجمع أبعاداً متنوعة تتيح لك النجاح في عدة مجالات متداخلة.'
 })
 
 function goImprovement() {
