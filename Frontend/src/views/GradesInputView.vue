@@ -42,6 +42,7 @@
             <span v-if="authStore.user?.gradeLevel" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100 shadow-sm">
               مأخوذة من ملفك ✨
             </span>
+
           </div>
           <div class="grid grid-cols-2 gap-4">
             <button @click="academicStage = 'junior'"
@@ -117,7 +118,6 @@
                 
                 <div class="flex items-center gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-200 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all w-full md:w-auto">
                   <div class="relative flex-1 md:w-32">
-                    <!-- التغيير هنا: من type="number" إلى type="text" -->
                     <input 
                       type="text" 
                       inputmode="numeric"
@@ -158,11 +158,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import apiClient from '@/api/client.js'
+import axios from 'axios'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
+
+const API_URL = 'https://careercompass-bngv.onrender.com'
 
 const academicStage = ref('junior')
 const selectedField  = ref('')
@@ -233,18 +235,15 @@ const gpaColorClass = computed(() => {
   return 'text-[#f43f5e]'
 })
 
-// دالة لتحويل الأرقام العربية والإنجليزية إلى أرقام قياسية
 function normalizeNumber(val) {
   if (val === null || val === undefined) return '';
   const str = String(val);
-  // تحويل الأرقام العربية (٠-٩) والفارسية (۰-۹) إلى إنجليزية (0-9)
   return str.replace(/[٠-٩]/g, d => d.charCodeAt(0) - 0x0660)
             .replace(/[۰-۹]/g, d => d.charCodeAt(0) - 0x06F0)
-            .replace(/[^0-9]/g, ''); // إزالة أي حرف آخر غير الأرقام
+            .replace(/[^0-9]/g, '');
 }
 
 function validateGrade(key) {
-  // تحويل القيمة الحالية إلى أرقام إنجليزية
   let rawVal = normalizeNumber(grades.value[key]);
   
   if (rawVal === '') {
@@ -256,7 +255,6 @@ function validateGrade(key) {
   if (isNaN(val) || val < 0) val = 0;
   if (val > 100) val = 100;
   
-  // تخزين القيمة كرقم
   grades.value[key] = val;
 }
 
@@ -290,7 +288,6 @@ async function submit() {
     return 
   }
   
-  // تأكد من تحويل كل القيم قبل الإرسال
   Object.keys(grades.value).forEach(k => {
     grades.value[k] = Number(normalizeNumber(grades.value[k])) || 0;
   });
@@ -302,7 +299,7 @@ async function submit() {
   }
   
   try {
-    const response = await apiClient.post('/api/assessments', {
+    const response = await axios.post(`${API_URL}/api/assessment/score`, {
       grades: grades.value,
       gpa: liveGPA.value,
       field: selectedField.value,
@@ -320,6 +317,7 @@ async function submit() {
       } 
     });
   } catch (error) {
+    console.error("Grades submission error:", error);
     errorMessage.value = 'حدث خطأ في الاتصال بالخادم.';
   }
 }
@@ -330,7 +328,6 @@ async function submit() {
 .font-sans { font-family: 'Tajawal', sans-serif; }
 .font-mono { font-family: 'IBM Plex Mono', monospace; }
 
-/* إخفاء أسهم الأرقام للحقول */
 input[type="text"]::-webkit-inner-spin-button,
 input[type="text"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
