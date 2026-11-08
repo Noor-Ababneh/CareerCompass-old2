@@ -199,7 +199,7 @@
   },
   {
     "id": "R_A_1",
-    "text_ar": "أستطيع تخيّل شكل جسم أو مبنى من زوايا متعددة دون الحاجة إلى رسمه.",
+    "text_ar": "أستطيع تخيّل شكل مجسم أو مبنى من زوايا متعددة دون الحاجة إلى رسمه.",
     "dimension": "R",
     "type": "aptitude",
     "phase": 2,
@@ -232,7 +232,7 @@
   },
   {
     "id": "I_A_2",
-    "text_ar": "أستطيع حفظ كمية كبيرة من المعلومات والمصطلحات الجديدة واستدعاءها بعد فترة طويلة.",
+    "text_ar": "أستطيع حفظ كمية كبيرة من المعلومات والمصطلحات الجديدة وتذكرها بعد فترة طويلة.",
     "dimension": "I",
     "type": "aptitude",
     "phase": 2,
@@ -264,16 +264,16 @@
     "construct": "Verbal comprehension (oral and written)"
   },
   {
-    "id": "S_A_1",
-    "text_ar": "أستطيع إدراك مشاعر الآخرين من تعابير وجوههم ونبرة أصواتهم.",
-    "dimension": "S",
-    "type": "aptitude",
-    "phase": 2,
-    "trait": "read_emotions",
-    "label_ar": "إدراك مشاعر الآخرين",
-    "source": "Fleishman & Reilly (1992) + O*NET Skills",
-    "construct": "Social perceptiveness"
-  },
+  "id": "S_A_1",
+  "text_ar": "غالباً ما أستطيع استنتاج الأسباب والدوافع الحقيقية وراء تصرفات الآخرين، حتى وإن لم يصرحوا بها.",
+  "dimension": "S",
+  "type": "aptitude",
+  "phase": 2,
+  "trait": "read_emotions",
+  "label_ar": "فهم دوافع وسلوكيات الآخرين",
+  "source": "Fleishman & Reilly (1992) + O*NET Skills",
+  "construct": "Social perceptiveness"
+},
   {
     "id": "S_A_2",
     "text_ar": "أستطيع التوفيق بين طرفين مختلفين في الرأي والتوصل إلى حل يقبله كلاهما.",
@@ -363,16 +363,16 @@
     "construct": "Persistence"
   },
   {
-    "id": "I_S_2",
-    "text_ar": "أرتاح للعمل في مهن تؤثر دقة قراراتي فيها مباشرة في صحة الآخرين وسلامتهم.",
-    "dimension": "I",
-    "type": "style",
-    "phase": 3,
-    "trait": "responsibility_safety",
-    "label_ar": "تقبّل العمل الذي تؤثر نتائجه في صحة الآخرين",
-    "source": "O*NET Work Context",
-    "construct": "Consequence of error / responsibility for others' health and safety"
-  },
+  "id": "I_S_2",
+  "text_ar": "أثق بقدرتي على إنجاز المهام الحساسة التي تعتمد عليها راحة أو سلامة الآخرين.",
+  "dimension": "I",
+  "type": "style",
+  "phase": 3,
+  "trait": "responsibility_safety",
+  "label_ar": "تحمل مسؤولية المهام الحساسة",
+  "source": "O*NET Work Context",
+  "construct": "Consequence of error / responsibility for others' health and safety"
+},
   {
     "id": "A_S_1",
     "text_ar": "أنجز عملي بصورة أفضل حين أختار بنفسي أسلوب التنفيذ دون تعليمات تفصيلية.",

@@ -20,7 +20,7 @@
 
     <div class="w-full relative z-10 transition-all duration-700 flex items-center justify-center mt-12" :class="currentScreen === 'intro' ? 'max-w-3xl' : 'max-w-2xl'">
       
-      <div v-if="currentScreen === 'phaseIntro' && (currentPhase === 2 || currentPhase === 3) && userGender" class="fixed right-[calc(50%+450px)] top-[35%] z-20 hidden xl:block animate-float pointer-events-none">
+      <div v-if="currentScreen === 'phaseIntro' && (currentPhase === 2 || currentPhase === 3)" class="fixed right-[calc(50%+450px)] top-[35%] z-20 hidden xl:block animate-float pointer-events-none">
         <div class="w-[300px] bg-white rounded-3xl shadow-xl shadow-indigo-500/10 p-2 border-2 border-white overflow-hidden">
           <img :src="avatarSrc" class="w-full h-auto rounded-2xl object-cover" alt="Student Avatar" />
         </div>
@@ -76,7 +76,10 @@
               <span class="font-bold text-indigo-700 block mb-2">💡 تعليمات هذه المرحلة:</span>
               {{ phaseHint }}
               <div class="mt-2 text-xs text-indigo-600/70 font-bold uppercase tracking-wide">
-                المصدر العلمي: {{ currentPhaseMeta.source }}
+                المصدر العلمي: 
+                <span v-if="currentPhase === 1">Holland (1997)</span>
+                <span v-else-if="currentPhase === 2">Fleishman & Reilly (1992)</span>
+                <span v-else>O*NET Work Context</span>
               </div>
             </div>
 
@@ -197,6 +200,7 @@ const avatarSrc = computed(() => {
   return userGender.value === 'female' ? girlGif : boyGif
 })
 
+// الرابط اللايف على ريندر جاهز للرفع
 const API_URL = 'https://careercompass-backend-x56k.onrender.com'
 
 const currentScreen = ref('intro')
