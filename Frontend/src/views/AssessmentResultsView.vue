@@ -184,26 +184,26 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { JORDANIAN_FIELDS } from '@/data/riasecQuestions'
 
 const router = useRouter()
-const route = useRoute()
 const mounted = ref(false)
+
+// قراءة النتائج بأمان تام من ذاكرة المتصفح localStorage
+const savedResult = localStorage.getItem('assessmentResult')
+const resultData = savedResult ? JSON.parse(savedResult) : {}
 
 onMounted(() => {
   setTimeout(() => { mounted.value = true }, 100)
   window.scrollTo({ top: 0, behavior: 'instant' })
 })
 
-const resultData = JSON.parse(route.query.resultData || '{}')
-
 const scores = ref(resultData.scores || { R: 0, I: 0, A: 0, S: 0, E: 0, C: 0 })
 const riasecCode = ref(resultData.riasec_code || '---')
 const topFieldKey = ref(resultData.field || 'Business')
 const topMajors = ref(resultData.top_majors || [])
 
-const sortedScores = computed(() => Object.entries(scores.value).sort((a, b) => b[1] - a[1]))
 const topField = computed(() => JORDANIAN_FIELDS[topFieldKey.value] || JORDANIAN_FIELDS.Business)
 const totalQuestions = 42
 
@@ -225,22 +225,22 @@ function dimPercent(dim) {
 function fieldMatchPercent(fieldKey) {
   return resultData.field_match_percent ? (resultData.field_match_percent[fieldKey] || 0) : 0
 }
+
 const dimensionsDisplay = {
-  R: { name: 'واقعي تقني', icon: '🛠️', gradient: 'linear-gradient(90deg, #64748B, #94A3B8)', delay: '0.1s' }, // رمادي/أزرق
-  I: { name: 'تحليلي بحثي', icon: '🔬', gradient: 'linear-gradient(90deg, #4338CA, #6366F1)', delay: '0.2s' }, // نيلي
-  A: { name: 'إبداعي فني', icon: '🎨', gradient: 'linear-gradient(90deg, #F472B6, #FBCFE8)', delay: '0.3s' }, // بيبي بينك
-  S: { name: 'اجتماعي مساعد', icon: '🤝', gradient: 'linear-gradient(90deg, #059669, #34D399)', delay: '0.4s' }, // أخضر زمردي
-  E: { name: 'قيادي ريادي', icon: '🚀', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', delay: '0.5s' }, // أزرق/بنفسجي
-  C: { name: 'دقيق منظم', icon: '📋', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', delay: '0.6s' } // أزرق سماوي
+  R: { name: 'واقعي تقني', icon: '🛠️', gradient: 'linear-gradient(90deg, #64748B, #94A3B8)', delay: '0.1s' },
+  I: { name: 'تحليلي بحثي', icon: '🔬', gradient: 'linear-gradient(90deg, #4338CA, #6366F1)', delay: '0.2s' },
+  A: { name: 'إبداعي فني', icon: '🎨', gradient: 'linear-gradient(90deg, #F472B6, #FBCFE8)', delay: '0.3s' },
+  S: { name: 'اجتماعي مساعد', icon: '🤝', gradient: 'linear-gradient(90deg, #059669, #34D399)', delay: '0.4s' },
+  E: { name: 'قيادي ريادي', icon: '🚀', gradient: 'linear-gradient(90deg, #4F46E5, #818CF8)', delay: '0.5s' },
+  C: { name: 'دقيق منظم', icon: '📋', gradient: 'linear-gradient(90deg, #0284C7, #38BDF8)', delay: '0.6s' }
 }
 
 const fieldsData = computed(() => {
-  
   const updatedFields = { ...JORDANIAN_FIELDS };
-  if(updatedFields.Health) updatedFields.Health.color = '#3b82f6'; // أزرق
-  if(updatedFields.EngineeringIT) updatedFields.EngineeringIT.color = '#4f46e5'; // نيلي
-  if(updatedFields.Humanities) updatedFields.Humanities.color = '#8b5cf6'; // بنفسجي
-  if(updatedFields.Business) updatedFields.Business.color = '#0ea5e9'; // سماوي
+  if(updatedFields.Health) updatedFields.Health.color = '#3b82f6';
+  if(updatedFields.EngineeringIT) updatedFields.EngineeringIT.color = '#4f46e5';
+  if(updatedFields.Humanities) updatedFields.Humanities.color = '#8b5cf6';
+  if(updatedFields.Business) updatedFields.Business.color = '#0ea5e9';
   return updatedFields;
 })
 
@@ -285,7 +285,10 @@ const personalitySummary = computed(() => {
 function goImprovement() {
   router.push({ path: '/grades-input', query: { field: topFieldKey.value } })
 }
-function retake() { router.push({ path: '/assessment' }) }
+function retake() { 
+  localStorage.removeItem('assessmentResult')
+  router.push({ path: '/assessment' }) 
+}
 </script>
 
 <style scoped>

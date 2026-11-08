@@ -200,7 +200,6 @@ const avatarSrc = computed(() => {
   return userGender.value === 'female' ? girlGif : boyGif
 })
 
-// الرابط اللايف على ريندر جاهز للرفع
 const API_URL = 'https://careercompass-backend-x56k.onrender.com'
 
 const currentScreen = ref('intro')
@@ -314,13 +313,9 @@ async function submitAssessment(tiebreakChoice = null) {
       tieBreakerData.value = result.tiebreak
       currentScreen.value = 'tieBreaker'
     } else {
-      
-      router.push({ 
-        path: '/assessment-results',
-        query: { 
-          resultData: JSON.stringify(result) 
-        } 
-      })
+      // تخزين النتيجة في ذاكرة المتصفح والانتقال برابط نظيف وقصير
+      localStorage.setItem('assessmentResult', JSON.stringify(result))
+      router.push('/assessment-results')
     }
   } catch (error) {
     clearInterval(loadingTimer)
