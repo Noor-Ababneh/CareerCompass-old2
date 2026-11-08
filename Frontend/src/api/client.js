@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-// إنشاء نسخة من axios مربوطة بالباك إند تبعك
+// إنشاء نسخة من axios مربوطة بالباك إند الصحيح على ريندر
 const apiClient = axios.create({
-  baseURL: 'https://careercompass-bngv.onrender.com', // رابط الباك إند (FastAPI)
+  baseURL: 'https://careercompass-bngv.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   }
