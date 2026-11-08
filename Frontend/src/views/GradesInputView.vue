@@ -42,7 +42,6 @@
             <span v-if="authStore.user?.gradeLevel" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100 shadow-sm">
               مأخوذة من ملفك ✨
             </span>
-
           </div>
           <div class="grid grid-cols-2 gap-4">
             <button @click="academicStage = 'junior'"
@@ -299,6 +298,7 @@ async function submit() {
   }
   
   try {
+    // تم توجيه الطلب للمسار الصحيح المعتمد في الباك إند
     const response = await axios.post(`${API_URL}/api/assessment/score`, {
       grades: grades.value,
       gpa: liveGPA.value,
