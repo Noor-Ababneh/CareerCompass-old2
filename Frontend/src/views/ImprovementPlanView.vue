@@ -26,7 +26,21 @@
     </nav>
 
     <div class="relative z-10 max-w-6xl mx-auto px-5 pb-28 pt-8 print:p-4 print:max-w-none">
-      <div v-if="source === 'grades'" class="space-y-10">
+
+      <!-- ✅ حارس: لا توجد بيانات صالحة -->
+      <div v-if="!hasValidGrades" class="max-w-xl mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl text-center border border-slate-100">
+        <div class="text-5xl mb-4">📭</div>
+        <h2 class="text-xl font-black text-[#1E2A44] mb-2">لم تصل بيانات العلامات</h2>
+        <p class="text-sm text-[#4A5568] font-bold mb-6 leading-relaxed">
+          يبدو أن الرابط لم يحمل علاماتك بشكل صحيح. عد لصفحة إدخال العلامات وأعد المحاولة.
+        </p>
+        <button @click="$router.push('/grades-input')"
+          class="px-6 py-3 bg-[#3B4A6B] text-white font-bold rounded-xl hover:bg-[#2E3A59] transition">
+          العودة لإدخال العلامات
+        </button>
+      </div>
+
+      <div v-else-if="source === 'grades'" class="space-y-10">
 
         <section class="anim-fade text-center">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-5 border bg-white border-[#3B4A6B]/20 text-[#3B4A6B] shadow-sm">
@@ -40,7 +54,7 @@
           </p>
         </section>
 
-        <!-- بانر تحذيري يظهر فقط عند وجود مادة راسبة، لأنه يوقف القبول الجامعي كلياً -->
+        <!-- بانر تحذيري يظهر فقط عند وجود مادة راسبة -->
         <section v-if="hasFailedSubject" class="anim-fade">
           <div class="relative overflow-hidden rounded-[2rem] border-2 border-rose-300 bg-gradient-to-br from-rose-50 via-red-50 to-rose-100 shadow-xl shadow-rose-500/15 p-8 md:p-10">
             <div class="absolute top-6 right-6 w-14 h-14 rounded-full bg-rose-200/60 animate-ping pointer-events-none"></div>
@@ -116,7 +130,6 @@
                 </p>
               </div>
 
-              <!-- عتبات القبول: تُعرض فقط عند عدم وجود رسوب، لأن الرسوب يلغيها كلياً -->
               <div v-if="!hasFailedSubject" class="mt-8 grid grid-cols-3 gap-4">
                 <div class="bg-white/50 border border-slate-100 p-3 rounded-2xl text-center shadow-sm">
                   <div class="text-xl font-black" :class="gpa >= privateMin ? 'text-emerald-500' : 'text-rose-400'">{{ gpa >= privateMin ? '✓' : '✗' }}</div>
@@ -135,7 +148,6 @@
                 </div>
               </div>
 
-              <!-- بديل عند الرسوب: ثلاث بطاقات معطّلة تُوضّح أن عتبات القبول لا تنطبق -->
               <div v-else class="mt-8 grid grid-cols-3 gap-4">
                 <div v-for="label in ['قبول خاص','قبول حكومي','تخصصات منافسة']" :key="label"
                   class="bg-rose-50/60 border border-rose-100 p-3 rounded-2xl text-center shadow-sm opacity-60">
@@ -157,7 +169,6 @@
               <p class="text-sm text-[#4A5568] font-medium">مرتبة حسب الحد الأدنى للقبول. يعتمد القبول الفعلي على التنافس</p>
             </div>
           </div>
-        <!-- عند وجود رسوب: تُحجب قائمة التخصصات ويظهر تحذير بدلاً منها -->
         <div v-if="hasFailedSubject" class="relative">
           <div class="rounded-3xl border-2 border-rose-200 bg-rose-50/80 backdrop-blur-sm p-10 text-center">
             <div class="text-5xl mb-4">🔒</div>
@@ -176,7 +187,6 @@
           </div>
         </div>
 
-        <!-- العرض الطبيعي للتخصصات عند عدم وجود رسوب -->
         <div v-else>
           <div v-if="eligibleMajors.length > 0" class="space-y-3">
             <div v-for="(major, idx) in allFieldMajors" :key="major.name"
@@ -260,7 +270,6 @@
                 </div>
               </div>
 
-              <!-- صندوق إجراء عاجل يظهر فقط للمواد الراسبة، لأنها تمنع القبول الجامعي -->
               <div v-if="item.isFailed" class="mb-5 p-4 rounded-2xl bg-rose-50 border-2 border-rose-200">
                 <div class="flex items-center gap-2 mb-2">
                   <span class="text-lg">🚨</span>
@@ -391,11 +400,36 @@ onMounted(() => window.scrollTo({ top: 0, behavior: 'instant' }))
 const source = route.query.source || 'grades'
 const stage = route.query.stage || 'senior'
 const field = route.query.field || 'EngineeringIT'
-const grades = JSON.parse(route.query.grades || '{}')
-const gpa = parseFloat(route.query.gpa || 0)
 
-// نطاقات المستوى موحّدة عبر جميع المكوّنات:
-// راسب 0-49 | مقبول 50-64 | جيد 65-79 | جيد جداً 80-92 | امتياز 93-100
+// ✅ دالة آمنة لقراءة العلامات مهما كان شكلها (مشفّرة، مصفوفة، undefined، إلخ)
+function parseGrades(raw) {
+  if (Array.isArray(raw)) raw = raw[0]
+  if (!raw || typeof raw !== 'string') return {}
+
+  let text = raw
+  try {
+    text = decodeURIComponent(raw)
+  } catch {
+    text = raw
+  }
+
+  try {
+    const parsed = JSON.parse(text)
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {}
+  } catch (e) {
+    console.error('[ImprovementPlan] فشل قراءة العلامات من الرابط:', e, { raw, decoded: text })
+    return {}
+  }
+}
+
+const grades = parseGrades(route.query.grades)
+const gpa = Number.parseFloat(route.query.gpa) || 0
+
+// ✅ حارس: هل البيانات صالحة؟
+const hasValidGrades = computed(() => {
+  return grades && typeof grades === 'object' && Object.keys(grades).length > 0
+})
+
 const subjectMeta = {
   math: {
     icon: '🔢',
@@ -1230,7 +1264,6 @@ const privateMin = privateMinByField[field] || 60
 const govMin = govMinByField[field] || 65
 const competitiveMin = competitiveByField[field] || 80
 
-// إذا رسب الطالب في أي مادة (< 50%)، يُعتبر غير مؤهل للقبول الجامعي بغض النظر عن المعدل
 const hasFailedSubject = Object.values(grades).some(s => Number(s) < 50)
 
 const allFieldMajors = computed(() => {

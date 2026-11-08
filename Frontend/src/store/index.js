@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+// استيراد الأسئلة في أعلى الملف لتجنب استخدام await داخل الدالة
+import riasecQuestionsData from '@/assets/questions_ar.json' // أو '@/data/mockData.js' حسب مشروعك
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -42,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
 export const useAssessmentStore = defineStore('assessment', {
   state: () => ({
     currentQuestionIndex: 0,
-    answers: {}, // { questionId: score }
+    answers: {}, 
     grades: {
       math: null,
       science: null,
@@ -75,17 +77,10 @@ export const useAssessmentStore = defineStore('assessment', {
     
     async calculateResults() {
       this.isAnalyzing = true
-      
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000))
       
-      // Calculate subscale scores
       const scores = this.calculateSubscaleScores()
-      
-      // Calculate field scores
       const fieldScores = this.calculateFieldScores(scores)
-      
-      // Get recommended field/major
       const recommendation = this.getRecommendation(fieldScores)
       
       this.results = {
@@ -103,15 +98,12 @@ export const useAssessmentStore = defineStore('assessment', {
     
     calculateSubscaleScores() {
       const scores = {
-        // Interests
         realistic: 0,
         investigative: 0,
         social: 0,
         conventional: 0,
         enterprising: 0,
         artistic: 0,
-        
-        // Aptitudes
         math: 0,
         biology: 0,
         precision: 0,
@@ -120,8 +112,6 @@ export const useAssessmentStore = defineStore('assessment', {
         stress: 0,
         analytical: 0,
         organization: 0,
-        
-        // Work Style
         team: 0,
         solo: 0,
         routine: 0,
@@ -130,7 +120,6 @@ export const useAssessmentStore = defineStore('assessment', {
         active: 0,
       }
       
-      // Count questions per subscale for averaging
       const counts = {}
       
       Object.keys(this.answers).forEach(qId => {
@@ -148,10 +137,9 @@ export const useAssessmentStore = defineStore('assessment', {
         }
       })
       
-      // Average the scores
       Object.keys(scores).forEach(key => {
         if (counts[key] > 0) {
-          scores[key] = Math.round((scores[key] / counts[key]) * 20) // Scale to 100
+          scores[key] = Math.round((scores[key] / counts[key]) * 20)
         }
       })
       
@@ -159,48 +147,14 @@ export const useAssessmentStore = defineStore('assessment', {
     },
     
     calculateFieldScores(scores) {
-      const authStore = useAuthStore()
-      
-      // Field formulas based on 3D model
       const fieldScores = {
-        health: Math.round(
-          (scores.social * 0.3) + 
-          (scores.biology * 0.25) + 
-          (scores.precision * 0.2) + 
-          (scores.stress * 0.15) +
-          (scores.communication * 0.1)
-        ),
-        
-        engineering: Math.round(
-          (scores.realistic * 0.3) + 
-          (scores.math * 0.3) + 
-          (scores.technology * 0.2) + 
-          (scores.analytical * 0.2)
-        ),
-        
-        it: Math.round(
-          (scores.investigative * 0.25) + 
-          (scores.math * 0.25) + 
-          (scores.technology * 0.3) + 
-          (scores.organization * 0.2)
-        ),
-        
-        business: Math.round(
-          (scores.enterprising * 0.3) + 
-          (scores.communication * 0.25) + 
-          (scores.organization * 0.25) + 
-          (scores.conventional * 0.2)
-        ),
-        
-        arts: Math.round(
-          (scores.artistic * 0.4) + 
-          (scores.investigative * 0.2) + 
-          (scores.dynamic * 0.2) + 
-          (scores.communication * 0.2)
-        ),
+        health: Math.round((scores.social * 0.3) + (scores.biology * 0.25) + (scores.precision * 0.2) + (scores.stress * 0.15) + (scores.communication * 0.1)),
+        engineering: Math.round((scores.realistic * 0.3) + (scores.math * 0.3) + (scores.technology * 0.2) + (scores.analytical * 0.2)),
+        it: Math.round((scores.investigative * 0.25) + (scores.math * 0.25) + (scores.technology * 0.3) + (scores.organization * 0.2)),
+        business: Math.round((scores.enterprising * 0.3) + (scores.communication * 0.25) + (scores.organization * 0.25) + (scores.conventional * 0.2)),
+        arts: Math.round((scores.artistic * 0.4) + (scores.investigative * 0.2) + (scores.dynamic * 0.2) + (scores.communication * 0.2)),
       }
       
-      // Factor in grades if available
       if (this.grades.math && this.grades.science) {
         const gradeBonus = {
           health: (this.grades.science * 0.4 + this.grades.arabic * 0.3) * 0.2,
@@ -220,11 +174,7 @@ export const useAssessmentStore = defineStore('assessment', {
     
     getRecommendation(fieldScores) {
       const authStore = useAuthStore()
-      
-      // Sort fields by score
-      const sortedFields = Object.entries(fieldScores)
-        .sort((a, b) => b[1] - a[1])
-      
+      const sortedFields = Object.entries(fieldScores).sort((a, b) => b[1] - a[1])
       const topField = sortedFields[0][0]
       const topScore = sortedFields[0][1]
       
@@ -237,7 +187,6 @@ export const useAssessmentStore = defineStore('assessment', {
       }
       
       if (authStore.isGrade12) {
-        // Recommend specific majors for grade 12
         const majorsByField = {
           health: ['الطب البشري', 'طب الأسنان', 'الصيدلة', 'التمريض'],
           engineering: ['الهندسة الكهربائية', 'الهندسة المدنية', 'الهندسة الميكانيكية', 'الهندسة المعمارية'],
@@ -257,7 +206,6 @@ export const useAssessmentStore = defineStore('assessment', {
           })),
         }
       } else {
-        // Recommend field for grades 9-11
         return {
           type: 'field',
           field: fieldNames[topField],
@@ -272,8 +220,6 @@ export const useAssessmentStore = defineStore('assessment', {
     
     generateImprovementPlan(scores) {
       const weakAreas = []
-      
-      // Find weak aptitudes (below 60)
       const aptitudeKeys = ['math', 'biology', 'communication', 'technology', 'analytical', 'organization']
       aptitudeKeys.forEach(key => {
         if (scores[key] < 60) {
@@ -284,7 +230,6 @@ export const useAssessmentStore = defineStore('assessment', {
           })
         }
       })
-      
       return weakAreas
     },
     
@@ -304,51 +249,19 @@ export const useAssessmentStore = defineStore('assessment', {
     
     getSuggestions(key) {
       const suggestions = {
-        math: [
-          'حل تمارين إضافية يومياً',
-          'مشاهدة فيديوهات تعليمية',
-          'الانضمام لمجموعة دراسية',
-          'استشارة المعلم للمساعدة الإضافية',
-        ],
-        biology: [
-          'قراءة مواضيع علمية بانتظام',
-          'مشاهدة وثائقيات علمية',
-          'حفظ المصطلحات بطريقة منظمة',
-          'الربط بين النظري والعملي',
-        ],
-        communication: [
-          'المشاركة في النقاشات الصفية',
-          'تطوير مهارات العرض والتقديم',
-          'القراءة المستمرة',
-          'الكتابة المنتظمة',
-        ],
-        technology: [
-          'تعلم البرمجة الأساسية',
-          'استكشاف البرامج الحديثة',
-          'متابعة قنوات التكنولوجيا',
-          'الممارسة اليومية',
-        ],
-        analytical: [
-          'حل الألغاز المنطقية',
-          'تحليل الأخبار والأحداث',
-          'ممارسة الشطرنج',
-          'حل مسائل منطقية معقدة',
-        ],
-        organization: [
-          'استخدام أجندة يومية',
-          'تنظيم المهام حسب الأولوية',
-          'إنشاء قوائم مهام',
-          'تطوير عادات دراسية منتظمة',
-        ],
+        math: ['حل تمارين إضافية يومياً', 'مشاهدة فيديوهات تعليمية', 'الانضمام لمجموعة دراسية', 'استشارة المعلم للمساعدة الإضافية'],
+        biology: ['قراءة مواضيع علمية بانتظام', 'مشاهدة وثائقيات علمية', 'حفظ المصطلحات بطريقة منظمة', 'الربط بين النظري والعملي'],
+        communication: ['المشاركة في النقاشات الصفية', 'تطوير مهارات العرض والتقديم', 'القراءة المستمرة', 'الكتابة المنتظمة'],
+        technology: ['تعلم البرمجة الأساسية', 'ستكشاف البرامج الحديثة', 'متابعة قنوات التكنولوجيا', 'الممارسة اليومية'],
+        analytical: ['حل الألغاز المنطقية', 'تحليل الأخبار والأحداث', 'ممارسة الشطرنج', 'حل مسائل منطقية معقدة'],
+        organization: ['استخدام أجندة يومية', 'تنظيم المهام حسب الأولوية', 'إنشاء قوائم مهام', 'تطوير عادات دراسية منتظمة'],
       }
-      
       return suggestions[key] || ['التدريب المستمر', 'طلب المساعدة من المختصين']
     },
     
     getQuestionById(id) {
-      // This will be imported from mockData
-      const { questions } = await import('@/data/mockData.js')
-      return questions.find(q => q.id === id)
+      // استخدام البيانات المستوردة مباشرة بدون await
+      return riasecQuestionsData.find(q => q.id === id)
     },
     
     resetAssessment() {

@@ -294,14 +294,14 @@ function submit() {
     return 
   }
   
-  // الانتقال المباشر لصفحة خطة التطوير دون طلب خادم خارجي غير مخصص
+  // الانتقال الآمن مع تشفير الـ JSON لتجنب مشاكل المتصفحات والهواتف
   router.push({ 
     path: '/improvement-plan', 
     query: { 
       source: 'grades', 
       stage: academicStage.value, 
       field: selectedField.value, 
-      grades: JSON.stringify(grades.value), 
+      grades: encodeURIComponent(JSON.stringify(grades.value)), 
       gpa: liveGPA.value 
     } 
   });
