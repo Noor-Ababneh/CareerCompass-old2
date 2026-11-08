@@ -157,13 +157,10 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
 
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-
-const API_URL = 'https://careercompass-bngv.onrender.com'
 
 const academicStage = ref('junior')
 const selectedField  = ref('')
@@ -280,7 +277,7 @@ function selectField(val) {
   }
 }
 
-async function submit() {
+function submit() {
   errorMessage.value = ''
   if (!selectedField.value) { 
     errorMessage.value = 'الرجاء اختيار الحقل الأكاديمي للمتابعة.'; 
@@ -297,29 +294,17 @@ async function submit() {
     return 
   }
   
-  try {
-    // تم توجيه الطلب للمسار الصحيح المعتمد في الباك إند
-    const response = await axios.post(`${API_URL}/api/assessment/score`, {
-      grades: grades.value,
-      gpa: liveGPA.value,
-      field: selectedField.value,
-      stage: academicStage.value
-    });
-
-    router.push({ 
-      path: '/improvement-plan', 
-      query: { 
-        source: 'grades', 
-        stage: academicStage.value, 
-        field: selectedField.value, 
-        grades: JSON.stringify(grades.value), 
-        gpa: liveGPA.value 
-      } 
-    });
-  } catch (error) {
-    console.error("Grades submission error:", error);
-    errorMessage.value = 'حدث خطأ في الاتصال بالخادم.';
-  }
+  // الانتقال المباشر لصفحة خطة التطوير دون طلب خادم خارجي غير مخصص
+  router.push({ 
+    path: '/improvement-plan', 
+    query: { 
+      source: 'grades', 
+      stage: academicStage.value, 
+      field: selectedField.value, 
+      grades: JSON.stringify(grades.value), 
+      gpa: liveGPA.value 
+    } 
+  });
 }
 </script>
 
