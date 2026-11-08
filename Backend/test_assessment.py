@@ -2,11 +2,10 @@ import pytest
 from fastapi.testclient import TestClient
 from main import app
 
-# إنشاء "مستخدم وهمي" لفحص النظام
 client = TestClient(app)
 
 def test_read_root():
-    """فحص الصفحة الرئيسية وتأكد عمل السيرفر"""
+    """التحقق من أن الصفحة الرئيسية تعمل وتُرجع رسالة الحالة الصحيحة"""
     response = client.get("/")
     assert response.status_code == 200
     assert response.json() == {
@@ -16,7 +15,7 @@ def test_read_root():
     }
 
 def test_submit_assessment_returns_plan():
-    """فحص إرسال العلامات واستلام خطة التطوير"""
+    """التحقق من أن إرسال العلامات يُرجع خطة تطوير تحتوي على الحقول المطلوبة"""
     payload = {
         "grades": {"math": 85, "physics": 70, "eng_adv": 95},
         "gpa": 83.33,
@@ -24,13 +23,10 @@ def test_submit_assessment_returns_plan():
         "stage": "senior"
     }
     
-    # محاكاة إرسال البيانات من الواجهة
     response = client.post("/api/assessments", json=payload)
     
-    # التأكد من نجاح الطلب
     assert response.status_code == 200
     
-    # التأكد من صحة البيانات المرجعة
     data = response.json()
     assert "assessment_id" in data
     assert "result" in data
@@ -38,6 +34,6 @@ def test_submit_assessment_returns_plan():
     assert "eligibleMajors" in data["result"]
 
 def test_get_invalid_assessment():
-    """فحص طلب تقييم غير موجود (يجب أن يعطي خطأ 404)"""
+    """التحقق من أن طلب تقييم بمعرّف غير موجود يُرجع خطأ 404"""
     response = client.get("/api/assessments/invalid-id-123")
     assert response.status_code == 404

@@ -271,8 +271,8 @@ def get_assessment(assessment_id: str) -> Optional[Dict]:
     return None
 
 
-# تشغيل 
+# تشغيل test
 if __name__ == "__main__":
     init_db()
     insert_sample_data()
-    print("\n🎉 قاعدة البيانات جاهزة للعمل!")
+    print("\n قاعدة البيانات جاهزة للعمل")

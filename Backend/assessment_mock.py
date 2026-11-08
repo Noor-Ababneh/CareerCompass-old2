@@ -1,8 +1,5 @@
 import math
-
-# =============================================
-# RESOURCES DATABASE - COMPREHENSIVE
-# =============================================
+# resources database
 resources_db = {
   "math": [
     { "name": "قناة الأوائل", "url": "https://awa2el.net", "icon": "▶️", "type": "عربي" },
